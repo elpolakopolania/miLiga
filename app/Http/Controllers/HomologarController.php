@@ -17,6 +17,7 @@ use App\Adenda;
 use App\Homologacion;
 use App\Programa;
 use App\Http\Requests\HomologacionRequest;
+use PDF;
 
 class HomologarController extends Controller
 {
@@ -259,6 +260,8 @@ class HomologarController extends Controller
       // Cargar Modelo persona y usuario
       $persona = new Persona;
       $usuario = new User;
+      // Cargar pdf
+      $pdf  = new PDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
       // Obtener adenda
       $adenda = Adenda::find($adenda_id);
       // Obtener solicitud.
@@ -309,8 +312,39 @@ class HomologarController extends Controller
         'creditos' => $total_creditos,
         'dias' => $dias,
         'meses' => $meses,
-        'nombre_archivo' => $nombre_archivo
+        'nombre_archivo' => $nombre_archivo,
+        'pdf' => $pdf
       ];
+      // Obtener plantillas.
+      $header = view('pdf_plantillas.homologacion.header',$datos);
+      $body = view('pdf_plantillas.homologacion.body',$datos);
+      $footer = view('pdf_plantillas.homologacion.footer',$datos);
+      // Dibujar cabecera
+      $pdf::setHeaderCallback(function($pdf_) use ($pdf, $header){
+        $pdf::SetY(10);
+        $pdf::SetFont('helvetica', '', 10);
+        $pdf::writeHTML($header, true, false, true, false, '');
+        $pdf::SetY(50);
+      }); 
+      // Dibujar footer
+      $pdf::setFooterCallback(function($pdf_) use ($pdf, $footer){
+        $pdf::SetY(-25);
+        $pdf::SetFont('helvetica', 'I', 8);
+        $pdf::writeHTML($footer, true, false, true, false, '');
+      });
+
+      // Título
+      $pdf::SetTitle($nombre_archivo);
+      $pdf::SetCreator(PDF_CREATOR);
+      $pdf::SetAuthor('Software de Homologación FET.');
+      $pdf::SetSubject('Homologación FET');
+      $pdf::SetMargins(30, 34, 30);
+      $pdf::AddPage();
+
+      // Dibujar body 
+      $pdf::writeHTML($body, true, false, true, false, '');
+      $pdf::Output($nombre_archivo);
+      /*
       // Obtener html de la plantilla
       $plantilla = view('pdf_plantillas.homologacion',$datos);
       // Crear nuevo PDF.
@@ -322,7 +356,7 @@ class HomologarController extends Controller
         return $pdf->stream($nombre_archivo);
       }else{
         return $pdf->download($nombre_archivo);
-      }
+      }*/
     }
 
     /**
