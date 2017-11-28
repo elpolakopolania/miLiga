@@ -377,7 +377,7 @@ class HomologarController extends Controller
       $nombre_archivo = 'ok.pdf';
       if($adenda->archivo != ''){
         $nombre_archivo = $persona_adenda->codigo.'_'.$persona_adenda->nombres.'_'.$persona_adenda->apellidos.'.pdf';
-        $ruta = storage_path('app\adendas_firmadas\\'.$adenda->archivo);
+        $ruta = storage_path('app/adendas_firmadas/'.$adenda->archivo);
         $headers = array(
           'Content-Type: application/pdf',
           'Content-Disposition:attachment; filename="'.$nombre_archivo.'"',

@@ -1,70 +1,32 @@
-@extends('layouts.app')
-
+@extends('plantilla.appLogin')
+@section('clasebody','fp-page')
+@section('clasecontent','fp-box')
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Reset Password</div>
+  <div class="card">
+      <div class="body">
+          <form id="forgot_password" method="POST">
+              <div class="msg">
+                  Introduzca su dirección de correo electrónico que utilizó para registrarse.
+                  Te enviaremos un correo electrónico con tu nombre de usuario y un enlace para restablecer tu contraseña.
+              </div>
+              <div class="input-group">
+                  <span class="input-group-addon">
+                      <i class="material-icons">email</i>
+                  </span>
+                  <div class="form-line">
+                      <input type="email" class="form-control" name="email" placeholder="Correo" required autofocus>
+                  </div>
+              </div>
 
-                <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('password.request') }}">
-                        {{ csrf_field() }}
+              <button class="btn btn-block btn-lg bg-pink waves-effect" type="submit">RESTABLECER</button>
 
-                        <input type="hidden" name="token" value="{{ $token }}">
-
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ $email or old('email') }}" required autofocus>
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-                            <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-
-                                @if ($errors->has('password_confirmation'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password_confirmation') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Reset Password
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+              <div class="row m-t-20 m-b--5 align-center">
+                  <a href="{{ route('login') }}">ingresa!</a>
+              </div>
+          </form>
+      </div>
+  </div>
+@endsection
+@section('js')
+<script src="{{ asset('js/pages/examples/forgot-password.js') }}"></script>
 @endsection
