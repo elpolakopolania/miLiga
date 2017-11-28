@@ -38,7 +38,7 @@
   <div class="@yield('clasecontent')">
     <div class="logo">
       <span class="image img-responsive">
-        <img src="images/fet_ing_sm.png" alt="img">
+        <img src="{{ asset('images/fet_ing_sm.png') }}" alt="img">
       </span>
       <small>Software de gestión documental</small>
     </div>
