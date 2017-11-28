@@ -11,6 +11,10 @@
 <link href="{{ asset('plugins/waitme/waitMe.css') }}" rel="stylesheet" />
 <!-- Bootstrap Select Css -->
 <link href="{{ asset('plugins/bootstrap-select/css/bootstrap-select.css') }}" rel="stylesheet" />
+
+<!-- Input mascaras -->
+<link href="{{ asset('plugins/bootstrap-tagsinput/bootstrap-tagsinput.css') }}" rel="stylesheet">
+
 @endsection
 
 @section('cssPag')
@@ -30,7 +34,8 @@
                 <h2>Editar</h2>
             </div>
             <div class="body">
-                <form id="perfil" method="PATCH" action="{{ route('perfil.update', Auth::user()->id) }}">
+                <form id="frm_perfil" method="POST" action="{{ route('perfil.update', Auth::user()->id) }}">
+                <input name="_method" type="hidden" value="PUT">
                   {{ csrf_field() }}
                   <div class="row clearfix">
                       <div class="col-sm-6">
@@ -39,11 +44,8 @@
                                 <i class="material-icons">person</i>
                             </span>
                             <div class="form-line">
-                                <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" placeholder="Nombres"  autofocus required>
+                                <input type="text" class="form-control" id="nombres" name="nombres" value="{{ $persona->nombres }}" placeholder="Nombres"    required>
                             </div>
-                            @if ($errors->has('name'))
-                                <label id="name-error" class="error" for="name">{{ $errors->first('name') }}</label>
-                            @endif
                         </div>
                       </div>
                       <div class="col-sm-6">
@@ -52,23 +54,18 @@
                                 <i class="material-icons">person</i>
                             </span>
                             <div class="form-line">
-                                <input type="text" class="form-control" name="lastname" id="lastname" value="{{ old('lastname') }}" placeholder="Apellidos"  autofocus required>
+                                <input type="text" class="form-control" name="lastname" id="lastname" value="{{ $persona->apellidos }}" placeholder="Apellidos"    required>
                             </div>
-                            @if ($errors->has('lastname'))
-                                <label id="name-error" class="error" for="name">{{ $errors->first('lastname') }}</label>
-                            @endif
                         </div>
                       </div>
                   </div>
                   <div class="row clearfix">
                     <div class="col-sm-6">
-                      <select class="form-control show-tick">
+                      <select class="form-control show-tick selectpiker" id="tipoIdent" name="tipoIdent" value="{{ $persona->tipoIdent_id }}" required>
                           <option value="">-- Tipo de documento --</option>
-                          <option value="1">Registro civil</option>
-                          <option value="2">Tarjeta de identidad</option>
-                          <option value="3">Cédula de ciudadanía</option>
-                          <option value="4">Cédula de extranjería</option>
-                          <option value="5">Pasaporte</option>
+                            @foreach($tipo_docs as $doc)
+                            <option value="{{ $doc['id'] }}">{{ $doc['codigo'] }} - {{ $doc['nombre'] }}</option>
+                            @endforeach  
                       </select>
                     </div>
                     <div class="col-sm-6">
@@ -77,11 +74,8 @@
                               <i class="material-icons">payment</i>
                           </span>
                           <div class="form-line">
-                              <input type="text" class="form-control" name="numIdent" id="numIdent" value="{{ old('numIdent') }}" placeholder="Número de identificación"  autofocus required>
+                              <input type="text" class="form-control" name="numIdent" id="numIdent" value="{{ old('numIdent') }}" placeholder="Número de identificación"    required>
                           </div>
-                          @if ($errors->has('numIdent'))
-                              <label id="name-error" class="error" for="name">{{ $errors->first('numIdent') }}</label>
-                          @endif
                       </div>
                     </div>
                   </div>
@@ -92,7 +86,7 @@
                               <i class="material-icons">phone</i>
                           </span>
                           <div class="form-line">
-                              <input type="text" class="form-control" name="telefono" id="telefono" value="{{ old('telefono') }}" placeholder="Teléfono"  autofocus required>
+                              <input type="text" class="form-control" name="telefono" id="telefono" value="{{ old('telefono') }}" placeholder="Teléfono"    required>
                           </div>
                       </div>
                     </div>
@@ -102,7 +96,7 @@
                               <i class="material-icons">location_on</i>
                           </span>
                           <div class="form-line">
-                              <input type="text" class="form-control" name="direccion" id="direccion" value="{{ old('direccion') }}" placeholder="Dirección residencia"  autofocus required>
+                              <input type="text" class="form-control" name="direccion" id="direccion" value="{{ old('direccion') }}" placeholder="Dirección residencia"    required>
                           </div>
                       </div>
                     </div>
@@ -116,17 +110,18 @@
                                 <i class="material-icons">date_range</i>
                             </span>
                             <div class="form-line">
-                                <input type="text" class="form-control date" placeholder="Ex: 01/01/1996">
+                                <input name="fechaNac" id="fechaNac" type="text" class="form-control fecha" placeholder="Ex: 31/12/1900" required>
                             </div>
                         </div>
                       </div>
                     </div>
                     <div class="col-sm-6">
                       <b>Género</b>
-                      <select class="form-control show-tick">
+                      <select class="form-control show-tick selectpiker" name="genero" id="genero" required>
                           <option value="">-- Seleccionar --</option>
-                          <option value="1">Masculino</option>
-                          <option value="2">Femnino</option>
+                            @foreach($generos as $genero)
+                                <option value="{{ $genero['id'] }}">{{ $genero['nombre'] }}</option>
+                            @endforeach  
                       </select>
                     </div>
                   </div>
@@ -156,4 +151,13 @@
 
 <script src="{{ asset('js/pages/forms/basic-form-elements.js') }}"></script>
 
+<script src="{{ asset('plugins/jquery-inputmask/jquery.inputmask.bundle.js') }}"></script>
+
+<!-- Dropzone Plugin Js -->
+<script src="{{ asset('plugins/jquery-validation/jquery.validate.js') }}"></script>
+@endsection
+
+<!-- Librerias JS -->
+@section('jsPag')
+  <script src="{{ asset('js/pages/validar/validar_editar_perfil.js') }}"></script>
 @endsection

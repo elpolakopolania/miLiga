@@ -1,5 +1,4 @@
 <div>        
-    <p align="center">&nbsp;</p>
     <p align="left">Rivera, {{ $meses[date('n')-1]." ".date('d')." de ".date('Y' )}} </p>
     <p align="center">Consecutivo  No. {{ $adenda->codigo }}<br />
         Por  el cual se aprueban estudios de homologación</p>

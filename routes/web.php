@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('email','EmailController@index');
+//Route::get('email','EmailController@index');
 
 Route::get('/', function () {
     return redirect('login');

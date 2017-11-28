@@ -1,9 +1,11 @@
 <?php
 
-use App\User;
-use App\Persona;
 namespace App\Http\Controllers;
 
+use App\User;
+use App\Persona;
+use App\TipoDocumento;
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 
@@ -59,7 +61,26 @@ class PerfilController extends Controller
      */
     public function edit($id)
     {
-        return view('perfil.edit');
+        if($id == 'yo'){
+            // Obtener información de la persona.
+            $persona = new Persona();
+            $persona_id = Auth::user()->persona_id;
+            $persona_info = $persona->persona($persona_id);
+            $tipos_docs = TipoDocumento::all()->toArray();
+            
+            //Persona::persona(Auth::);
+            $datos = [
+                "persona" => $persona_info,
+                "tipo_docs" => $tipos_docs,
+                "generos" => [
+                    ["id"=>'M', 'nombre'=>'Masculino'], 
+                    ["id"=>'F', 'nombre'=>'Femenino']
+                ]
+            ];
+            return view('perfil.edit',$datos);
+        }else{
+            return redirect()->route('home');
+        }
     }
 
     /**

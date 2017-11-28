@@ -328,7 +328,7 @@ class HomologarController extends Controller
       }); 
       // Dibujar footer
       $pdf::setFooterCallback(function($pdf_) use ($pdf, $footer){
-        $pdf::SetY(-25);
+        $pdf::SetY(-20);
         $pdf::SetFont('helvetica', 'I', 8);
         $pdf::writeHTML($footer, true, false, true, false, '');
       });
@@ -338,7 +338,8 @@ class HomologarController extends Controller
       $pdf::SetCreator(PDF_CREATOR);
       $pdf::SetAuthor('Software de Homologación FET.');
       $pdf::SetSubject('Homologación FET');
-      $pdf::SetMargins(30, 34, 30);
+      $pdf::SetFooterMargin(50);
+      $pdf::SetMargins(30, 50, 30);
       $pdf::AddPage();
 
       // Dibujar body 
