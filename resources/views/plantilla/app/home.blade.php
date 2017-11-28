@@ -16,6 +16,7 @@
 <!-- Contenido de la página -->
 <div class="block-header">
     <h2>Bienvenido</h2>
+    {{ $_SERVER['DOCUMENT_ROOT'] }}
     @include('plantilla.msg.error')
 </div>
 @endsection
