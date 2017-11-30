@@ -202,7 +202,7 @@
                       </div>
                       <div class="col-sm-6 col-md-1">
                         <div class="input-group">
-                          <a type="button" href="{{ asset('storage/'.$estudio->nombre_archivo) }}" target="__blank" class="btn btn-success btn-circle waves-effect waves-circle waves-float">
+                          <a type="button" href="{{ url('../storage/app/public/'.$estudio->nombre_archivo) }}" target="__blank" class="btn btn-success btn-circle waves-effect waves-circle waves-float">
                               <i class="material-icons">search</i>
                           </a>
                         </div>

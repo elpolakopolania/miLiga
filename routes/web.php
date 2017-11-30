@@ -17,6 +17,9 @@ Route::get('/', function () {
     return redirect('login');
 });
 
+Route::get('correo','CorreoController@index');
+Route::get('borrar','CorreoController@borrar');
+
 Auth::routes();
 
 Route::middleware(['auth'])->group(function() {
