@@ -148,9 +148,51 @@ class EquipoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(EquipoRequest $request, $id)
     {
-        //
+
+        // Variables.
+        $msg = [];
+        $estado = false;
+
+        try {
+            //  Editar
+            $equipo = new Equipo();
+            $equipo = $equipo->find($id);
+            $equipoGrupo = new EquipoGrupo();
+            $equipoGrupo = $equipoGrupo->find(decrypt($request->input_id));
+            if( count($equipo) > 0 ){
+                // Editar Equipo
+                $equipo->nombre = $request->input_nombre;
+                $equipo->save();
+                // Editar relación
+                $equipoGrupo->liga_id = $request->select_liga;
+                $equipoGrupo->grupo_id = $request->select_grupo;
+                $equipoGrupo->equipo_id = $equipo->id;
+                $equipoGrupo->save();
+
+                $estado = true;
+                $msg[] = 'El grupo se guardó.';
+            }else{
+                $estado = false;
+                $msg[] = 'No se encontraron registros.';
+            }
+        } catch (Exception $e) {
+            $estado = false;
+            $msg[] = 'Error actualizando los datos.';
+        }
+
+
+        // Retornar datos al usuario.
+        $datos = [
+            'msg' => $msg,
+            'estado' => $estado,
+            $request->all(),
+            'id' => $id
+        ];
+
+        // Retornar datos.
+        return $datos;
     }
 
     /**

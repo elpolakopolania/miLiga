@@ -1,9 +1,9 @@
 var tb_grupos;
 var columnas = [
     'id',
-    'liga',
-    'grupo',
     'equipo',
+    'grupo',
+    'liga',
     'creada',
     'equipo_id',
     'liga_id',
@@ -148,7 +148,7 @@ function enviar_formulario(){
     parametros = get_param($("#form_equipo").serializeArray());
     parametros['select_liga']= $('#select_liga').selectpicker('val');
     var editar = '';
-    var id = '/' + $("#input_id").val();
+    var id = '/' + $("#equipo_id").val();
     var ruta = ruta_url;
     var metodo = 'POST';
     if($("#crear_editar").val() == 1){
