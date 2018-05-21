@@ -71,11 +71,11 @@
                 <div role="tabpanel" class="tab-pane fade in" id="grupo_panel">
                     <form id="form_equipo" action="{{ url('equipo') }}" method="POST">
                         {{ csrf_field() }}
-                        <input type="" name="crear_editar" id="crear_editar">
-                        <input type="" name="input_id" id="input_id">
-                        <input type="" name="grupo_id" id="grupo_id">
-                        <input type="" name="equipo_id" id="equipo_id">
-                        <input type="" name="liga_id" id="liga_id">
+                        <input type="hidden" name="crear_editar" id="crear_editar">
+                        <input type="hidden" name="input_id" id="input_id">
+                        <input type="hidden" name="grupo_id" id="grupo_id">
+                        <input type="hidden" name="equipo_id" id="equipo_id">
+                        <input type="hidden" name="liga_id" id="liga_id">
                         <div class="row">
                             <div class="col-sm-12">
                                 <b>Liga</b>

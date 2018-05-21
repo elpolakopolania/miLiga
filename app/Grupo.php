@@ -9,6 +9,22 @@ class Grupo extends Model
 {
     protected $table = 'grupos';
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'nombre','clasifican'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [];
+
   /**
   * Listar registros
   */

@@ -37,3 +37,38 @@ $factory->define(App\Persona::class, function (Faker\Generator $faker) {
       'genero'  => 'M'
     ];
 });
+
+/**
+ * Factory para las ligas
+ */
+$factory->define(App\Liga::class, function (Faker\Generator $faker) {
+    return [
+        'usuario_id' => 1,
+        'nombre' => $faker->name,
+        'img' => $faker->url,
+        'descripcion' => $faker->text,
+        'fecha_ini' => $faker->date($format = 'Y-m-d', $max = 'now'),
+        'fecha_fin' => $faker->date($format = 'Y-m-d', $max = 'now'),
+        'telefono' => $faker->tollFreePhoneNumber,
+        'direccion' => $faker->address,
+        'categoria' => $faker->title,
+        'valor_inscrip' => $faker->randomFloat($nbMaxDecimals = 2, $min = 10000, $max = 999999),
+        'valor_ama' => $faker->randomFloat($nbMaxDecimals = 2, $min = 5000, $max = 100000),
+        'valor_roja' => $faker->randomFloat($nbMaxDecimals = 2, $min = 5000, $max = 100000),
+        'campeon_id' => $faker->randomNumber($nbDigits = 2, $strict = false),
+        'subcampeon_id' => $faker->randomNumber($nbDigits = 2, $strict = false),
+        'reglas' => $faker->text($maxNbChars = 200),
+        'estado' => 1
+    ];
+});
+
+
+/**
+ * Factory para los grupos
+ */
+$factory->define(App\Grupo::class, function (Faker\Generator $faker) {
+    return [
+        'nombre' => $faker->name,
+        'clasifican' => $faker->numberBetween($min = 1, $max = 8),
+    ];
+});
