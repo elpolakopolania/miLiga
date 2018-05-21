@@ -24,17 +24,12 @@ Auth::routes();
 
 Route::middleware(['auth'])->group(function() {
   Route::get('/home', 'HomeController@index')->name('home');
-  Route::resource('perfil', 'PerfilController', ['only' => [
-    'edit', 'update', 'index'
-  ]]);
-  Route::get('homologar/descargar/{id}/{firmado}/{tipo?}','HomologarController@descargar');
-  Route::get('homologar/crear/{id}', 'HomologarController@crear');
-  Route::get('homologar/solicitudes', 'HomologarController@solicitudes');
-  Route::get('homologar/listar_asignaturas', 'HomologarController@listar_asignaturas');
-  Route::resource('homologar', 'HomologarController');
-  Route::get('solicitud/listar_solicitudes', 'SolicitudController@listar_solicitudes');
-  Route::resource('solicitud', 'SolicitudController');
-  Route::post('adenda/homologar','AdendaController@homologar');
-  Route::post('adenda/cargar_firma','AdendaController@cargar_firma');
-  Route::resource('adenda', 'AdendaController');
+  Route::get('mis_ligas','LigaController@mis_ligas');
+  Route::get('grupos_liga/{id}','GrupoController@grupos_liga');
+  Route::get('ligas','LigaController@listar_ligas');
+  Route::get('grupos','GrupoController@listar');
+  Route::get('equipos','EquipoController@listar');
+  Route::resource('/liga', 'LigaController');
+  Route::resource('/grupo', 'GrupoController');
+  Route::resource('/equipo', 'EquipoController');
 });

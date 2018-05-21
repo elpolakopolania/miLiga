@@ -1,4 +1,5 @@
 $(function () {
+    obtener_ligas();
     skinChanger();
     activateNotificationAndTasksScroll();
 
@@ -12,16 +13,71 @@ $(function () {
 
 //Skin changer
 function skinChanger() {
-    $('.right-sidebar .demo-choose-skin li').on('click', function () {
+    $('.right-sidebar .demo-choose-skin').on('click', 'li', function () {
         var $body = $('body');
         var $this = $(this);
+        if($(".link_liga.active").length == 1 && $this.hasClass( "active" )){
+            console.log('No se puede desativar');
+        }else{
+            $this.toggleClass('active');
+            if($this.hasClass("todos")){
+                if($this.hasClass( "active" )){
+                    $(".link_liga").addClass('active');
+                }else{
+                    $(".link_liga").removeClass('active');
+                    $($(".link_liga")[0]).addClass('active');
+                }
+            }
+        }
+    });
+    $('.right-sidebar .demo-choose-skin').on('click', 'li.actualizar', function () {
+        update_liga();
+    });
+}
 
-        var existTheme = $('.right-sidebar .demo-choose-skin li.active').data('theme');
-        $('.right-sidebar .demo-choose-skin li').removeClass('active');
-        $body.removeClass('theme-' + existTheme);
-        $this.addClass('active');
+function update_liga(){
+    // Ontener ids
+    var ids = [];
+    $.each($(".link_liga.active"),function(i,v){
+        ids.push($(v).data('valor'));
+    });
+    window.location.replace(ruta_url_ + '/mis_ligas?' + $.param({ids:ids}));
+}
 
-        $body.addClass('theme-' + $this.data('theme'));
+function obtener_ligas(){   
+    $.get(ruta_url_ + '/mis_ligas',function(e) {
+        dibujar_ligas(e);
+    }).fail(function() {
+        alert('Error listando ligas!');
+    });
+}
+
+function dibujar_ligas(ligas){
+    colores = [
+        'red','PINK','PURPLE','deep-purple','INDIGO','BLUE','light-blue', 
+        'CYAN','TEAL','GREEN','light-green','LIME','YELLOW','AMBER',
+        'ORANGE','deep-orange'
+    ];
+    $(".demo-choose-skin").html('');
+    $(".demo-choose-skin").append(`
+        <li class="todos">
+            <div class="white"></div>
+            <span>Todos</span>
+        </li>
+        <li role="separator" class="divider"></li>
+        <li class="actualizar">
+            <div class="white"></div>
+            <span>Actualizar</span>
+        </li>
+        <li role="separator" class="divider"></li>
+    `);
+    $.each(ligas,function(i,v){
+        $(".demo-choose-skin").append(`
+            <li class="link_liga ` + v.estado + `" data-valor="` + v.id + `">
+                <div class="` + colores[i%colores.length].toLowerCase() + `"></div>
+                <span>` + v.nombre + `</span>
+            </li>
+        `);
     });
 }
 
@@ -105,3 +161,80 @@ function loadTracking() {
     ga('send', 'pageview');
 }
 //========================================================================================================
+
+/**
+ * Marcar opciones del menú.
+ * @param {*} opciones 
+ */
+function marcar_opciones(opciones, mostrar){
+
+    // Mostrar UL
+    $.each(mostrar,function(i,v){
+        if(v.onOff){
+            $(v.id).show();
+        }else{
+            $(v.id).hide();
+        }
+    });
+
+    // Seleccionar opocion del menú.
+    $.each(opciones,function(i,v){
+        $(v.id).toggleClass(v.class);
+    });
+
+}
+
+
+/**
+* Mostrar notificaciones.
+*/
+function showNotification(colorName, text, placementFrom, placementAlign, animateEnter, animateExit) {
+    if (colorName === null || colorName === '') { colorName = 'bg-black'; }
+    if (text === null || text === '') { text = ''; }
+    if (animateEnter === null || animateEnter === '') { animateEnter = 'animated fadeInDown'; }
+    if (animateExit === null || animateExit === '') { animateExit = 'animated fadeOutUp'; }
+    var allowDismiss = true;
+
+    $.notify({
+        message: text
+    },
+        {
+            type: colorName,
+            allow_dismiss: allowDismiss,
+            newest_on_top: true,
+            timer: 1000,
+            placement: {
+                from: placementFrom,
+                align: placementAlign
+            },
+            animate: {
+                enter: animateEnter,
+                exit: animateExit
+            },
+            template: '<div data-notify="container" class="bootstrap-notify-container alert alert-dismissible {0} ' + (allowDismiss ? "p-r-35" : "") + '" role="alert">' +
+            '<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
+            '<span data-notify="icon"></span> ' +
+            '<span data-notify="title">{1}</span> ' +
+            '<span data-notify="message">{2}</span>' +
+            '<div class="progress" data-notify="progressbar">' +
+            '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
+            '</div>' +
+            '<a href="{3}" target="{4}" data-notify="url"></a>' +
+            '</div>'
+        });
+}
+
+/**
+ * 
+ * Obtener parámetros del formulario.
+ */
+function get_param(formdata){
+    parametros = {};
+
+    $.each(formdata,function(i,v){
+        parametros[v.name] = v.value;
+    });
+
+    return parametros;
+}
+

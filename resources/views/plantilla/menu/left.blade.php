@@ -1,6 +1,6 @@
 <?php
-  // Obtener personas.
-  $persona = Session::get('persona')[0];
+    // Obtener personas.
+    $persona = Session::get('persona')[0];
 ?>
 <!-- Barra lateral izquierda -->
 <aside id="leftsidebar" class="sidebar">
@@ -35,48 +35,80 @@
     <div class="menu">
         <ul class="list">
             <li class="header">Navegación principal</li>
-            <li class='active'>
-                <a href="{{ route('home') }}">
+            <li class="active" id="list_home">
+                <a href="{{ url('home') }}">
                     <i class="material-icons">home</i>
                     <span>Inicio</span>
                 </a>
             </li>
-            @if (Auth::user()->tipo_usuario_id == 3)
-              <li>
-                  <a href="javascript:void(0);" class="menu-toggle">
-                      <i class="material-icons">assignment</i>
-                      <span>Homologación</span>
-                  </a>
-                  <ul class="ml-menu">
-                      <li>
-                          <!-- Jefe de programa -->
-                          <a href="{{ url('solicitud') }}">Listado de solicitudes</a>
-                      </li>
-                  </ul>
-              </li>
-            @endif
-            @if (Auth::user()->tipo_usuario_id == 4)
-              <li>
-                  <a href="javascript:void(0);" class="menu-toggle">
-                      <i class="material-icons">assignment</i>
-                      <span>Homologación</span>
-                  </a>
-                  <ul class="ml-menu">
-                      <li>
-                        <!-- Estudiante -->
-                        <a href="{{ url('solicitud/create') }}">Solicitar homologación</a>
-                        <a href="{{ url('homologar/solicitudes') }}">Ver mi homologación</a>
-                      </li>
-                  </ul>
-              </li>
-            @endif
+            <li id="list_ligas">
+                <a href="{{ url('liga') }}">
+                    <i class="material-icons">apps</i>
+                    <span>Ligas</span>
+                </a>
+            </li>
+            <li id="list_grupos">
+                <a href="{{ url('grupo') }}">
+                    <i class="material-icons">view_carousel</i>
+                    <span>Grupos</span>
+                </a>
+            </li>
+            <li id="list_equipos">
+                <a href="{{ url('equipo') }}">
+                    <i class="material-icons">security</i>
+                    <span>Equipos</span>
+                </a>
+            </li>
+            <li id="list_participantes">
+                <a href="javascript:void(0);" class="menu-toggle">
+                    <i class="material-icons">accessibility</i>
+                    <span>Participantes</span>
+                </a>
+                <ul class="ml-menu">
+                    <li>
+                    <!-- Estudiante -->
+                    <a href="#">Jugadores</a>
+                    <a href="#">Delegados</a>
+                    <!-- <a href="#">Arbitros</a> -->
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="material-icons">date_range</i>
+                    <span>Fechas</span>
+                </a>
+            </li>
+            <li id="resultado_li"> 
+                <a href="javascript:void(0);" id="resultado_a" class="menu-toggle waves-effect waves-block">
+                    <i class="material-icons">assignment</i>
+                    <span>Resultados</span>
+                </a>
+                <ul class="ml-menu" id="resultado_m">
+                    <li id="posiciones_li">
+                        <a href="#" id="posiciones_a" class="waves-effect waves-block">Tabla de posiciones</a>
+                    </li>
+                    <li id="goleador_li">
+                        <a href="#" id="goleador_a" class=" waves-effect waves-block">Goleador</a>
+                    </li>
+                    <li id="vencida_li">
+                        <a href="#" id="vencida_a" class=" waves-effect waves-block">Valla menos vencida</a>
+                    </li>
+                    <li id="amarillas_li">
+                        <a href="#" id="amarillas_a" class=" waves-effect waves-block">Amarillas</a>
+                    </li>
+                    <li id="rojas_li">
+                        <a href="#" id="rojas_a" class=" waves-effect waves-block">Rojas</a>
+                    </li>
+                </ul>
+            </li>
         </ul>
     </div>
     <!-- #Menu -->
     <!-- Footer -->
     <div class="legal">
         <div class="copyright">
-            &copy; 2017 <a href="javascript:void(0);">Desarrollado por semillero Ingenius</a>.
+            &copy; 2018 <a href="javascript:void(0);">Desarrollado por Gustavo Polania</a>.
         </div>
         <div class="version">
             <b>Version: </b> 1.0.0

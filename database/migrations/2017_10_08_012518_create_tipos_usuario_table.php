@@ -26,8 +26,8 @@ class CreateTiposUsuarioTable extends Migration
         $tipos_usuarios = [
           ['nombre' => 'Root'],
           ['nombre' => 'Administrador'],
-          ['nombre' => 'Jefe de programa'],
-          ['nombre' => 'Estudiante']
+          ['nombre' => 'Jugador'],
+          ['nombre' => 'Delegado']
         ];
         // Insertar datos
         foreach ($tipos_usuarios as $indice => $tipo_usuario) {

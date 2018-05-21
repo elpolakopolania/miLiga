@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <title>@yield('titulo') | Fet </title>
+    <title>@yield('titulo') | Mi Liga </title>
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Favicon-->
-    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('favicon.ico?ass') }}" type="image/x-icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
@@ -38,11 +38,13 @@
     <!--/end Estilo de la página -->
     <script type="text/javascript">
       var base_url = '{{ asset('') }}';
-      console.log(base_url);
+      var ruta_url_ = '{{ url('') }}';
+      //console.log(base_url, ruta_url_);
+      var selecionar_lista = [];
     </script>
 </head>
 
-<body class="theme-teal">
+<body class="theme-light-blue">
     <!-- Cargando -->
     <div class="page-loader-wrapper">
         <div class="loader">
@@ -66,11 +68,14 @@
     @include('plantilla.menu.top')
     <section>
       @include('plantilla.menu.left')
+      @include('plantilla.menu.right')
     </section>
     <!-- Contenido de la APP -->
     <section class="content">
         <div class="container-fluid">
-            @yield('contenido')
+            <div class="row">
+                @yield('contenido')
+            </div>
         </div>
     </section>
     <!-- #END# Contenido de la APP -->

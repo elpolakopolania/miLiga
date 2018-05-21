@@ -6,9 +6,9 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Gestor documental | Fet</title>
+    <title>Mi liga | Iniciar sesión</title>
     <!-- Favicon-->
-    <link rel="icon" href="{{ asset('favicon.ico?aa=ss') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
@@ -33,14 +33,11 @@
     </script>
 </head>
 
-
 <body class="@yield('clasebody')">
   <div class="@yield('clasecontent')">
     <div class="logo">
-      <span class="image img-responsive">
-        <img src="{{ asset('images/fet_ing_sm.png') }}" alt="img">
-      </span>
-      <small>Software de gestión documental</small>
+    <a href="javascript:void(0);"><b>Mi Liga</b></a>
+      <small>Plataforma administración de ligas</small>
     </div>
     @yield('content')
   </div>
