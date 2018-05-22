@@ -10,6 +10,7 @@
 | database. Just tell the factory how a default model should look.
 |
 */
+USE Illuminate\Support\Facades\Auth;
 
 /** Usuarios */
 $factory->define(App\User::class, function (Faker\Generator $faker) {
@@ -84,9 +85,42 @@ $factory->define(App\LigaGrupo::class, function (Faker\Generator $faker) {
         return factory(App\Grupo::class)->create()->id;
     };
     // Obtener una liga randon del usuario
-    $liga_id = App\Liga::orderBy(DB::raw('RAND()'))->where('usuario_id',Auth::user()->id)->first();
+    $liga_id = App\Liga::orderBy(DB::raw('RAND()'))->first();
     return [
         'liga_id' => $liga_id->id,
-        'grupo_id' => $grupo_id,
+        'grupo_id' => $grupo_id
+    ];
+});
+
+/**
+ * Factory para los equipos
+ */
+$factory->define(App\Equipo::class, function (Faker\Generator $faker) {
+    return [
+        'nombre' => $faker->lastName(),
+        'escudo' => $faker->url,
+        'delegado_id' => NULL
+    ];
+});
+
+/**
+ * Factory para relacionar los equipos.
+ */
+$factory->define(App\EquipoGrupo::class, function (Faker\Generator $faker) {
+    // Se crea el equipo
+    $equipo_id = function (){
+        return factory(App\Equipo::class)->create()->id;
+    };
+    // Obtener un grupo aleatorio
+    $grupo_id = App\Grupo::orderBy(DB::raw('RAND()'))->first();
+
+    // Obtener una liga randon del usuario
+    $liga_id = App\Liga::orderBy(DB::raw('RAND()'))->first();
+
+    return [
+        'liga_id' => $liga_id->id,
+        'grupo_id' => $grupo_id->id,
+        'equipo_id' => $equipo_id,
+        'posicion' => 0
     ];
 });

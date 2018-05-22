@@ -18,9 +18,9 @@ class AddForeignKeyToEquiposTable extends Migration
             /*$table->foreign('delegado_id','fk_equipos_participantes_id')
                 ->references('id')
                 ->on('personas')->onUpdate('NO ACTION')->onDelete('NO ACTION'); */
-            $table->foreign('liga_id','fk_equipos_ligas_id')
+            /*$table->foreign('liga_id','fk_equipos_ligas_id')
                 ->references('id')
-                ->on('ligas')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+                ->on('ligas')->onUpdate('NO ACTION')->onDelete('NO ACTION');*/
         });
     }
 
@@ -34,7 +34,7 @@ class AddForeignKeyToEquiposTable extends Migration
         Schema::table('equipos',function(Blueprint $table)
         {
           //$table->dropForeign('fk_equipos_participantes_id');
-          $table->dropForeign('fk_equipos_ligas_id');
+          //$table->dropForeign('fk_equipos_ligas_id');
         });
     }
 }

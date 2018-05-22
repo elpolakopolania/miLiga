@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class GrupoligaTableSeeder extends Seeder
+class UserTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class GrupoligaTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        factory(App\User::class, 1)->create();
     }
 }

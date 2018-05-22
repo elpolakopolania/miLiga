@@ -43,25 +43,32 @@ class Grupo extends Model
   * Obtener el total de regitros filtrados
   */
   private function get_total($get, $user_id){
-    // Obtener el total de los registros filtrados.
-    $total = DB::table('ligas as l')
-        ->select(DB::raw('count(*) as total'))
-        ->where('l.usuario_id',$user_id);
-        if(!empty($get->search['value'])){
-            $buscar = DB::raw("'".$get->search['value']."%'");
-            $buscar_all = DB::raw("'%".$get->search['value']."%'");
-            $total->where(function($total) use ($buscar, $buscar_all){
-                $total->orWhere('l.nombre', 'like', $buscar)
-                ->orWhere('l.categoria', 'like', $buscar)
-                ->orWhere('l.fecha_ini', 'like', $buscar)
-                ->orWhere('l.fecha_fin', 'like', $buscar)
-                ->orWhere('l.descripcion', 'like', $buscar_all)
-                ->orWhere(Db::raw('DATE_FORMAT( l.created_at , "%Y/%m/%d")'), 'like', $buscar);
-            });
-        }
-    $total->get();
-    // Retornar la cantidad de registros.
-    return $total->first()->total;
+      // Obtener el total de los registros filtrados.
+      $consulta = DB::table('ligas_grupos as lg')
+          ->join('ligas as l', 'lg.liga_id', '=', 'l.id')
+          ->join('grupos as g', 'lg.grupo_id', '=', 'g.id')
+          ->where('l.usuario_id',$user_id)
+          ->select(DB::raw('count(*) as total'));
+      if(!empty(session()->get('ligas'))){
+          $ligas_ = [];
+          foreach (session()->get('ligas') as $i => $liga) {
+              if($liga['estado'] == 'active'){
+                  $ligas_[] = $liga['id'];
+              }
+          }
+          $consulta->whereIn('lg.liga_id',array_values($ligas_));
+      }
+      if(!empty($get->search['value'])){
+          $buscar = DB::raw("'".$get->search['value']."%'");
+          $buscar_all = DB::raw("'%".$get->search['value']."%'");
+          $consulta->where(function($consulta) use ($buscar, $buscar_all){
+              $consulta->orWhere('l.nombre', 'like', $buscar)
+                  ->orWhere('g.nombre', 'like', $buscar);
+          });
+      }
+      $consulta->get();
+      // Retornar la cantidad de registros.
+      return $consulta->first()->total;
   }
 
   /**

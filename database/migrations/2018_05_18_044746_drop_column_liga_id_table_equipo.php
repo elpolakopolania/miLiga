@@ -14,8 +14,8 @@ class DropColumnLigaIdTableEquipo extends Migration
     public function up()
     {
         Schema::table('equipos', function (Blueprint $table) {
-            $table->dropForeign('fk_equipos_ligas_id');
-            $table->dropColumn(['liga_id']);
+            //$table->dropForeign('fk_equipos_ligas_id');
+            //$table->dropColumn(['liga_id']);
         });
     }
 
@@ -27,7 +27,7 @@ class DropColumnLigaIdTableEquipo extends Migration
     public function down()
     {
         Schema::table('equipos', function (Blueprint $table) {
-            $table->integer('liga_id')->index('fk_equipos_ligas_id')->unsigned();
+            //$table->integer('liga_id')->index('fk_equipos_ligas_id')->unsigned();
         });
     }
 }

@@ -15,7 +15,7 @@ class Equipo extends Model
      * @var array
      */
     protected $fillable = [
-        'nombre','escudo','delegado_id','liga_id','estado'
+        'nombre','escudo','delegado_id', 'estado'
     ];
 
     /**
