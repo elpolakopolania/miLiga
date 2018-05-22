@@ -19,7 +19,7 @@ class DropColumnLigaIdTableEquipo extends Migration
         });
     }
 
-    /**
+    /**fk_equipos_ligas_id
      * Reverse the migrations.
      *
      * @return void

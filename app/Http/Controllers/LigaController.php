@@ -17,6 +17,7 @@ class LigaController extends Controller
      */
     public function index()
     {
+        //$liga = Liga::orderBy(DB::raw('RAND()'))->first();
         return view('liga.index');
     }
 

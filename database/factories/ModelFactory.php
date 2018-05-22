@@ -11,7 +11,7 @@
 |
 */
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+/** Usuarios */
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
     return [
@@ -20,12 +20,12 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         },
         'tipo_usuario_id' => $faker->numberBetween($min = 1, $max = 4),
         'email' => $faker->unique()->safeEmail,
-        'password' => $password ?: $password = bcrypt('secret'),
+        'password' => $password ?: $password = bcrypt(123456),
         'remember_token' => str_random(10),
     ];
 });
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+/** Personas */
 $factory->define(App\Persona::class, function (Faker\Generator $faker) {
     return [
       'nombres' => $faker->name,
@@ -34,6 +34,7 @@ $factory->define(App\Persona::class, function (Faker\Generator $faker) {
       'numIdent' => $faker->randomNumber($nbDigits = 9, $strict = true),
       'telefono' => $faker->e164PhoneNumber,
       'fechaNac' => $faker->date($format = 'Y-m-d'),
+        'direccion' => $faker->address(),
       'genero'  => 'M'
     ];
 });
@@ -42,8 +43,9 @@ $factory->define(App\Persona::class, function (Faker\Generator $faker) {
  * Factory para las ligas
  */
 $factory->define(App\Liga::class, function (Faker\Generator $faker) {
+    $usuario_id = App\User::orderBy(DB::raw('RAND()'))->first();
     return [
-        'usuario_id' => 1,
+        'usuario_id' => $usuario_id->id,
         'nombre' => $faker->name,
         'img' => $faker->url,
         'descripcion' => $faker->text,
@@ -70,5 +72,21 @@ $factory->define(App\Grupo::class, function (Faker\Generator $faker) {
     return [
         'nombre' => $faker->name,
         'clasifican' => $faker->numberBetween($min = 1, $max = 8),
+    ];
+});
+
+/**
+ * Factory para la relación grupos ligas
+ */
+$factory->define(App\LigaGrupo::class, function (Faker\Generator $faker) {
+    // Se crea el grupo
+    $grupo_id = function (){
+        return factory(App\Grupo::class)->create()->id;
+    };
+    // Obtener una liga randon del usuario
+    $liga_id = App\Liga::orderBy(DB::raw('RAND()'))->where('usuario_id',Auth::user()->id)->first();
+    return [
+        'liga_id' => $liga_id->id,
+        'grupo_id' => $grupo_id,
     ];
 });
