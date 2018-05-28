@@ -19,6 +19,7 @@ class CreatePersonasTable extends Migration {
 			$table->string('apellidos');
 			$table->integer('tipoIdent_id');
 			$table->bigInteger('numIdent');
+            $table->string('email');
 			$table->string('telefono');
 			$table->date('fechaNac');
 			$table->char('genero', 1);

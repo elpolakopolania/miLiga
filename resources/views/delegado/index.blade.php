@@ -28,7 +28,7 @@
         <div class="card">
             <div class="header">
                 <h2>
-                    Administrar Equipos
+                    Administrar Delegados
                 </h2>
             </div>
             <div class="body">
@@ -54,16 +54,19 @@
                                     <table class="table table-bordered table-striped table-hover" id="tb_grupos">
                                         <thead>
                                         <tr>
-                                            <th>id</th>
-                                            <th>Equipo</th>
-                                            <th>Grupo</th>
-                                            <th>Liga</th>
-                                            <th>Doc Delegado</th>
-                                            <th>Delegado</th>
+                                            <th>persona_id</th>
+                                            <th>Nombres</th>
+                                            <th>Apellidos</th>
+                                            <th>Tipo docuemto</th>
+                                            <th>Documento</th>
+                                            <th>Teléfono</th>
+                                            <th>Dirección</th>
+                                            <th>Fecha Nacimiento</th>
+                                            <th>Género</th>
                                             <th>Creada</th>
-                                            <th>equipo_id</th>
                                             <th>liga_id</th>
                                             <th>grupo_id</th>
+                                            <th>equipo_id</th>
                                             <th>delegado_id</th>
                                             <th></th>
                                         </tr>
@@ -83,7 +86,7 @@
                             <input type="hidden" name="equipo_id" id="equipo_id">
                             <input type="hidden" name="liga_id" id="liga_id">
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-sm-4">
                                     <b>Liga</b>
                                     <select id="select_liga" name="select_liga"
                                             class="form-control show-tick selectpiker">
@@ -92,7 +95,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-4">
                                     <b>Grupo</b>
                                     <select id="select_grupo" name="select_grupo"
                                             class="form-control show-tick selectpiker">
@@ -101,8 +104,38 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-sm-12">
-                                    <b>Nombre</b>
+                                <div class="col-sm-4">
+                                    <b>Equipo</b>
+                                    <select id="select_equipo" name="select_equipo"
+                                            class="form-control show-tick selectpiker">
+                                        @foreach ($grupos as $grupo)
+                                            <option value="{{ $grupo->id }}">{{ $grupo->nombre }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-sm-6">
+                                    <b>Tipo de documento</b>
+                                    <select id="select_tipoDoc" name="select_tipoDoc"
+                                            class="form-control show-tick selectpiker">
+                                        @foreach ($grupos as $grupo)
+                                            <option value="{{ $grupo->id }}">{{ $grupo->nombre }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-sm-6">
+                                    <b>Número de documento</b>
+                                    <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">assignment_ind</i>
+                                    </span>
+                                        <div class="form-line">
+                                            <input type="text" class="form-control" name="input_doc"
+                                                   id="input_doc" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <b>Nombres</b>
                                     <div class="input-group">
                                     <span class="input-group-addon">
                                         <i class="material-icons">assignment</i>
@@ -113,36 +146,75 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-5">
-                                    <b>Documento Delegado</b>
+                                <div class="col-sm-6">
+                                    <b>Apellidos</b>
                                     <div class="input-group">
                                     <span class="input-group-addon">
-                                        <i class="material-icons">perm_identity</i>
+                                        <i class="material-icons">assignment</i>
                                     </span>
                                         <div class="form-line">
-                                            <input type="hidden" id="input_idDelegado" name="input_idDelegado">
-                                            <input type="text" class="form-control" name="input_doc" id="input_doc">
+                                            <input type="text" class="form-control" name="input_apelido"
+                                                   id="input_nombre" required>
                                         </div>
-                                        <span class="input-group-addon">
-                                        <button type="button" id="btn_buscar_dele"
-                                                data-toggle="cardloading" data-loading-effect="rotation"
-                                                data-loading-color="lightBlue"
-                                                class="btn bg-blue btn-circle waves-effect waves-circle waves-float">
-                                            <i class="material-icons">search</i>
-                                        </button>
-                                    </span>
                                     </div>
                                 </div>
-                                <div class="col-sm-7">
-                                    <b>Nombres completos</b>
+                                <div class="col-sm-6">
+                                    <b>Teléfono</b>
                                     <div class="input-group">
                                     <span class="input-group-addon">
-                                        <i class="material-icons">subject</i>
+                                        <i class="material-icons">smartphone</i>
                                     </span>
                                         <div class="form-line">
-                                            <input type="text" class="form-control" id="nombre_delegado" readonly>
+                                            <input type="text" class="form-control" name="input_telefono"
+                                                   id="input_telefono">
                                         </div>
                                     </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <b>Correo</b>
+                                    <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">email</i>
+                                    </span>
+                                        <div class="form-line">
+                                            <input type="email" class="form-control" name="input_correo"
+                                                   id="input_correo">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <b>Dirección</b>
+                                    <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">location_on</i>
+                                    </span>
+                                        <div class="form-line">
+                                            <input type="text" class="form-control" name="input_direccion"
+                                                   id="input_direccion">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <b>Fecha nacimiento</b>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="material-icons">date_range</i>
+                                        </span>
+                                        <div class="form-line">
+                                            <input type="text" name="input_fecha_ini" id="input_fecha_ini"
+                                                   class="datepicker form-control"
+                                                   placeholder="fecha de nacimiento..."
+                                                   required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <b>Genero</b>
+                                    <select id="select_genero" name="select_genero"
+                                            class="form-control show-tick selectpiker">
+                                        <option value="F">Femenino</option>
+                                        <option value="M">Masculino</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="row clearfix">
@@ -159,7 +231,6 @@
             </div>
         </div>
     </div>
-
     <script type="text/javascript">
         var ruta_base = '{{ url('') }}';
         var ruta_tabla = '{{ url('equipos') }}';
@@ -202,5 +273,5 @@
 
 <!-- Librerias JS -->
 @section('jsPag')
-    <script src="{{ asset('js/pages/validar/validar_equipos.js') }}"></script>
+    <script src="{{ asset('js/pages/validar/validar_delegados.js') }}"></script>
 @endsection

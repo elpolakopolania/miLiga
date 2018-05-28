@@ -1,17 +1,17 @@
 <?php
-    // Obtener personas.
-    $persona = Session::get('persona')[0];
+// Obtener personas.
+$persona = Session::get('persona')[0];
 ?>
 <!-- Barra lateral izquierda -->
 <aside id="leftsidebar" class="sidebar">
     <!-- User Info -->
     <div class="user-info">
         <div class="image">
-            <img src="{{ asset('images/user.png') }}" width="48" height="48" alt="User" />
+            <img src="{{ asset('images/user.png') }}" width="48" height="48" alt="User"/>
         </div>
         <div class="info-container">
             <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              {{ $persona['nombres'] . ' ' . $persona['apellidos'] }}
+                {{ $persona['nombres'] . ' ' . $persona['apellidos'] }}
             </div>
             <div class="email">{{ Auth::user()->email }}</div>
             <div class="btn-group user-helper-dropdown">
@@ -19,11 +19,12 @@
                 <ul class="dropdown-menu pull-right">
                     <li><a href="{{ url('perfil/yo/edit') }}"><i class="material-icons">person</i>Perfil</a></li>
                     <li>
-                        <a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                          <i class="material-icons">input</i>Salir
-                          <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                              {{ csrf_field() }}
-                          </form>
+                        <a href="{{ route('logout') }}"
+                           onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                            <i class="material-icons">input</i>Salir
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
                         </a>
                     </li>
                 </ul>
@@ -60,16 +61,16 @@
                 </a>
             </li>
             <li id="list_participantes">
-                <a href="javascript:void(0);" class="menu-toggle">
+                <a href="javascript:void(0);" class="menu-toggle" id="participantes_a">
                     <i class="material-icons">accessibility</i>
                     <span>Participantes</span>
                 </a>
-                <ul class="ml-menu">
-                    <li>
-                    <!-- Estudiante -->
-                    <a href="#">Jugadores</a>
-                    <a href="#">Delegados</a>
-                    <!-- <a href="#">Arbitros</a> -->
+                <ul class="ml-menu" id="participantes_m">
+                    <li id="jugadores_li">
+                        <a href="#" id="jugadores_a" class="waves-effect waves-block">Jugadores</a>
+                    </li>
+                    <li id="delegados_li">
+                        <a href="{{ url('delegado') }}" id="delegados_a" class="waves-effect waves-block">Delegados</a>
                     </li>
                 </ul>
             </li>
@@ -79,7 +80,7 @@
                     <span>Fechas</span>
                 </a>
             </li>
-            <li id="resultado_li"> 
+            <li id="resultado_li">
                 <a href="javascript:void(0);" id="resultado_a" class="menu-toggle waves-effect waves-block">
                     <i class="material-icons">assignment</i>
                     <span>Resultados</span>

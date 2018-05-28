@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Participante;
 use Illuminate\Http\Request;
 use App\Http\Requests\EquipoRequest;
 use App\Equipo;
@@ -20,20 +21,20 @@ class EquipoController extends Controller
      */
     public function index()
     {
-          // Liga
-          $liga = new Liga;
-          // Obtener id del usuario
-          $user_id = Auth::user()->id;
-          // Obtener las ligas del usuario
-          $ligas = $liga->select('id', 'nombre')->where('usuario_id', $user_id)->where('estado',1)->get(); 
-          // Grupos
-          $grupo = new Grupo;
-          $datos['ligas'] = $ligas->toArray();
-          $datos['grupos'] = $grupo->grupos($user_id, $datos['ligas'][0]['id']);
-          return view('equipo.index',$datos);
+        // Liga
+        $liga = new Liga;
+        // Obtener id del usuario
+        $user_id = Auth::user()->id;
+        // Obtener las ligas del usuario
+        $ligas = $liga->select('id', 'nombre')->where('usuario_id', $user_id)->where('estado', 1)->get();
+        // Grupos
+        $grupo = new Grupo;
+        $datos['ligas'] = $ligas->toArray();
+        $datos['grupos'] = $grupo->grupos($user_id, $datos['ligas'][0]['id']);
+        return view('equipo.index', $datos);
     }
 
-     /**
+    /**
      * Listar grupos
      *
      * @return \Illuminate\Http\Response
@@ -47,7 +48,7 @@ class EquipoController extends Controller
         // Obtener las ligas del usuario
 
         // Obtener solicitudes
-        $equipos = $equipo->listar($get,$user_id);
+        $equipos = $equipo->listar($get, $user_id);
         // Ordenar datos
         $datos = [
             "draw" => $get->draw,
@@ -55,7 +56,7 @@ class EquipoController extends Controller
             "recordsFiltered" => $equipos['total'],
             "data" => $equipos['ligas']/*,
             "get" => $_GET,*/
-          ];
+        ];
         return $datos;
     }
 
@@ -73,7 +74,7 @@ class EquipoController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(EquipoRequest $request)
@@ -84,29 +85,39 @@ class EquipoController extends Controller
 
         try {
             //  Editar
-           $equipo = new Equipo(); 
-           $equipoGrupo = new EquipoGrupo(); 
-           if( count($equipo) > 0 ){
-               // Editar Equipo
-               $equipo->nombre = $request->input_nombre;
-               $equipo->save();
-               // Editar relación
-               $equipoGrupo->liga_id = $request->select_liga;
-               $equipoGrupo->grupo_id = $request->select_grupo;
-               $equipoGrupo->equipo_id = $equipo->id;
-               $equipoGrupo->save();
-
-               $estado = true;
-               $msg[] = 'El grupo se guardó.';
-           }else{
-               $estado = false;
-               $msg[] = 'No se encontraron registros.';
-           }
+            $equipo = new Equipo();
+            $equipoGrupo = new EquipoGrupo();
+            $delegado = new Participante();
+            if (count($equipo) > 0) {
+                // Editar Equipo
+                $equipo->nombre = $request->input_nombre;
+                $equipo->escudo = "";
+                $equipo->save();
+                // Editar relación
+                $equipoGrupo->liga_id = $request->select_liga;
+                $equipoGrupo->grupo_id = $request->select_grupo;
+                $equipoGrupo->equipo_id = $equipo->id;
+                $equipoGrupo->posicion = 0;
+                $equipoGrupo->save();
+                // Relacionar delegado.
+                if (isset($request->input_idDelegado)) {
+                    $delegado->persona_id = decrypt($request->input_idDelegado);
+                    $delegado->liga_id = $request->select_liga;
+                    $delegado->tipo_usuario_id = 4;
+                    $delegado->equipo_id = $equipo->id;
+                    $delegado->save();
+                }
+                $estado = true;
+                $msg[] = 'El grupo se guardó.';
+            } else {
+                $estado = false;
+                $msg[] = 'No se encontraron registros.';
+            }
         } catch (Exception $e) {
             $estado = false;
             $msg[] = 'Error actualizando los datos.';
         }
-        
+
 
         // Retornar datos al usuario.
         $datos = [
@@ -122,7 +133,7 @@ class EquipoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -133,7 +144,7 @@ class EquipoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -144,8 +155,8 @@ class EquipoController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(EquipoRequest $request, $id)
@@ -161,7 +172,10 @@ class EquipoController extends Controller
             $equipo = $equipo->find($id);
             $equipoGrupo = new EquipoGrupo();
             $equipoGrupo = $equipoGrupo->find(decrypt($request->input_id));
-            if( count($equipo) > 0 ){
+            $delegado = (isset($request->input_idDelegado)) ?
+                Participante::where('equipo_id', $id)->where('tipo_usuario_id', 4)->first() :
+                new Participante();
+            if (count($equipo) > 0) {
                 // Editar Equipo
                 $equipo->nombre = $request->input_nombre;
                 $equipo->save();
@@ -170,10 +184,30 @@ class EquipoController extends Controller
                 $equipoGrupo->grupo_id = $request->select_grupo;
                 $equipoGrupo->equipo_id = $equipo->id;
                 $equipoGrupo->save();
-
+                // Validar delegado
+                if (isset($request->input_idDelegado)) {
+                    if (isset($delegado->id)) {
+                        // Actualizar delegado
+                        $delegado->persona_id = decrypt($request->input_idDelegado);
+                        $delegado->save();
+                    } else {
+                        // Crear delegado.
+                        if (!isset($delegado->id)) {
+                            $delegado = new Participante();
+                        }
+                        $delegado->persona_id = decrypt($request->input_idDelegado);
+                        $delegado->liga_id = $request->select_liga;
+                        $delegado->tipo_usuario_id = 4;
+                        $delegado->equipo_id = $id;
+                        $delegado->save();
+                    }
+                } else {
+                    // Eliminar delegado del equipo.
+                    Participante::where('equipo_id', $id)->where('tipo_usuario_id', 4)->delete();
+                }
                 $estado = true;
                 $msg[] = 'El grupo se guardó.';
-            }else{
+            } else {
                 $estado = false;
                 $msg[] = 'No se encontraron registros.';
             }
@@ -183,7 +217,7 @@ class EquipoController extends Controller
         }
 
 
-        // Retornar datos al usuario.
+// Retornar datos al usuario.
         $datos = [
             'msg' => $msg,
             'estado' => $estado,
@@ -191,17 +225,18 @@ class EquipoController extends Controller
             'id' => $id
         ];
 
-        // Retornar datos.
+// Retornar datos.
         return $datos;
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public
+    function destroy($id)
     {
         //
     }

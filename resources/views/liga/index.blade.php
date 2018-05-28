@@ -98,15 +98,17 @@
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-6">
-                            <b>Inicio de la liga</b>
-                            <div class="input-group">
+                                <b>Inicio de la liga</b>
+                                <div class="input-group">
                                 <span class="input-group-addon">
                                     <i class="material-icons">date_range</i>
                                 </span>
-                                <div class="form-line">
-                                    <input type="text" name="input_fecha_ini" id="input_fecha_ini" class="datepicker form-control" placeholder="Escoja la fecha inicio..." required>
+                                    <div class="form-line">
+                                        <input type="text" name="input_fecha_ini" id="input_fecha_ini"
+                                               class="datepicker form-control" placeholder="Escoja la fecha inicio..."
+                                               required>
+                                    </div>
                                 </div>
-                            </div>
                             </div>
                             <div class="col-sm-12 col-md-6">
                             <b>Fin de la liga</b>

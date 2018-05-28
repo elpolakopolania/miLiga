@@ -1,27 +1,18 @@
 var tb_grupos;
 var columnas = [
-    'id',
-    'equipo',
-    'grupo',
-    'liga',
-    'docDelegado',
-    'delegado',
-    'creada',
-    'equipo_id',
-    'liga_id',
-    'grupo_id',
-    'delegado_id',
+    'persona_id', 'nombres', 'apellidos', 'tipo_doc', 'documento', 'telefono', 'direccion',
+    'fecha_nac', 'genero', 'creada', 'liga_id', 'grupo_id', 'equipo_id', 'delegado_id',
     'opciones'
 ];
 var cancelar = 'cancelar';
 var ok = 'ok';
 var limpiar = 'limpiar';
 
-var colorName='bg-red';
-var placementFrom='bottom';
-var placementAlign='right';
-var animateEnter='animated fadeInRight';
-var animateExit='animated fadeOutRight';
+var colorName = 'bg-red';
+var placementFrom = 'bottom';
+var placementAlign = 'right';
+var animateEnter = 'animated fadeInRight';
+var animateExit = 'animated fadeOutRight';
 $(document).ready(function () {
     // Inicializar menú
     ini_menu();
@@ -70,12 +61,12 @@ function ini_btn_editar() {
  */
 function ini_tb() {
     tb_grupos = $('#tb_grupos').DataTable({
-        "processing": true,
+        /*"processing": true,
         "serverSide": true,
         "ajax": {
             "url": ruta_tabla,
             "type": "GET"
-        },
+        },*/
         "createdRow": function (row, data, index) {
             $('td', row).eq(-1).html(`
             <button type="button" class="btn btn-primary btn-circle waves-effect waves-circle waves-float btn_editar">
@@ -95,7 +86,7 @@ function ini_tb() {
                 "searchable": false,
                 "orderable": false,
                 "width": "10px"
-            },
+            }/*,
             {
                 "targets": [
                     columnas.indexOf('id'),
@@ -107,7 +98,7 @@ function ini_tb() {
                 "searchable": false,
                 "orderable": false,
                 "visible": false
-            }
+            }*/
         ]
     });
 }
@@ -116,13 +107,20 @@ function ini_tb() {
  * Inicializar opciones del menú
  */
 function ini_menu() {
+
     active = 'active';
     toggled = 'toggled';
     selecionar_lista = [
-        {id: '#list_home', class: active},
-        {id: '#list_equipos', class: active}
+        {id: '#list_home', class: toggled},
+        {id: '#list_participantes', class: active},
+        {id: '#participantes_a', class: toggled},
+        {id: '#delegados_li', class: active},
+        {id: '#delegados_a', class: toggled}
     ];
-    mostrar = [];
+    mostrar = [
+        {id: '#participantes_m', onOff: true}
+    ];
+
     marcar_opciones(selecionar_lista, mostrar);
 }
 
@@ -263,7 +261,7 @@ function dibujar_select(data) {
 function ini_buscar_delegado() {
     $("#btn_buscar_dele").click(function () {
         //Buscar delegado
-        if($("#input_doc").val() != '') {
+        if ($("#input_doc").val() != '') {
             form_cargando(true, '#grupo_panel', this);
             obtener_delegado($("#input_doc").val());
         }
@@ -273,14 +271,14 @@ function ini_buscar_delegado() {
 function obtener_delegado(documento) {
     $.get(ruta_get_delegado + '/' + documento, function (datos) {
         // Validar el estado de la notificaion.
-        if(datos.id != undefined){
-            colorName='bg-teal';
+        if (datos.id != undefined) {
+            colorName = 'bg-teal';
             msg = 'Se encontró delegado';
             $("#input_idDelegado").val(datos.id);
             $("#input_doc").val(datos.numIdent);
             $("#nombre_delegado").val(datos.nombre);
-        }else{
-            colorName='bg-red';
+        } else {
+            colorName = 'bg-red';
             msg = 'No se encontró delegado';
             $("#input_idDelegado").val('');
             $("#input_doc").val('');
@@ -291,16 +289,16 @@ function obtener_delegado(documento) {
     }).fail(function () {
         try {
             respuesta = JSON.parse(res.responseText);
-            $.each(respuesta,function(indice, value){
-                $.each( value,function(i,v){
+            $.each(respuesta, function (indice, value) {
+                $.each(value, function (i, v) {
                     showNotification(colorName, v, placementFrom, placementAlign, animateEnter, animateExit);
                 });
             });
         }
-        catch(err) {
+        catch (err) {
             showNotification(colorName, 'Error en el servidor.', placementFrom, placementAlign, animateEnter, animateExit);
         }
-    }).always(function() {
+    }).always(function () {
         form_cargando(false, '#grupo_panel');
     });
 
@@ -320,16 +318,3 @@ function form_cargando(bool, aplicar, elemento = '') {
         $(aplicar).waitMe('hide');
     }
 }
-
-/*active = 'active';
-    toggled = 'toggled';
-    selecionar_lista = [
-        {id: '#list_home', class: active},
-        {id: '#resultado_li', class: active},
-        {id: '#resultado_a', class: toggled},
-        {id: '#posiciones_li', class:  active},
-        {id: '#posiciones_a', class: toggled}
-    ];
-    mostrar = [
-            {id: '#resultado_m', onOff: true}
-    ];*/

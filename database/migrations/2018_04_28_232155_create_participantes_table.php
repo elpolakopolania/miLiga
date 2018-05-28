@@ -18,6 +18,7 @@ class CreateParticipantesTable extends Migration
 			$table->increments('id');
             $table->integer('persona_id')->index('fk_participantes_personas_id')->unsigned();
             $table->integer('liga_id')->index('fk_participantes_ligas_id')->unsigned();
+            $table->integer('equipo_id');
             $table->integer('tipo_usuario_id')->index('fk_participantes_tipos_usuarios_id')->unsigned();
             $table->integer('estado')->comment('O inactivo, 1 activo')->default(1);
 			$table->timestamps();

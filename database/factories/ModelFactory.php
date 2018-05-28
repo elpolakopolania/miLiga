@@ -124,3 +124,47 @@ $factory->define(App\EquipoGrupo::class, function (Faker\Generator $faker) {
         'posicion' => 0
     ];
 });
+
+/**
+ * Factory para crear los delegados
+ */
+$factory->define(App\Participante::class, function (Faker\Generator $faker) {
+    // Se crea la persona
+    $persona_id = function (){
+        return factory(App\Persona::class)->create()->id;
+    };
+    // Obtener una liga aleatoria
+    $liga_id = App\Liga::orderBy(DB::raw('RAND()'))->first();
+
+    // Obtener un equipo aleatorio.
+    $equipo_id = App\Equipo::orderBy(DB::raw('RAND()'))->first();
+
+    return [
+        'persona_id' => $persona_id,
+        'liga_id' => $liga_id,
+        'tipo_usuario_id' => $faker->numberBetween($min = 1, $max = 4),
+        'equipo_id' => $equipo_id
+    ];
+});
+
+/**
+ * Factory para crear los jugadores
+ */
+$factory->define(App\Participante::class, function (Faker\Generator $faker) {
+    // Se crea la persona
+    $persona_id = function (){
+        return factory(App\Persona::class)->create()->id;
+    };
+    // Obtener una liga aleatoria
+    $liga_id = App\Liga::orderBy(DB::raw('RAND()'))->first();
+
+    // Obtener un equipo aleatorio.
+    $equipo_id = App\Equipo::orderBy(DB::raw('RAND()'))->first();
+
+    return [
+        'persona_id' => $persona_id,
+        'liga_id' => $liga_id,
+        'tipo_usuario_id' => $faker->numberBetween($min = 1, $max = 4),
+        'equipo_id' => $equipo_id
+    ];
+});
