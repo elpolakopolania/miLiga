@@ -18,6 +18,7 @@ class CreateTipoDocumentosTable extends Migration {
 			$table->increments('id');
 			$table->char('codigo', 2)->unique();
 			$table->string('nombre');
+            $table->integer('estado')->comment('O inactivo, 1 activo')->default(1);
 			$table->timestamps();
 		});
 

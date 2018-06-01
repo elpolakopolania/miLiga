@@ -35,6 +35,19 @@ class EquipoController extends Controller
     }
 
     /**
+     * Listar equipos de la liga
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function equipo_liga($id_liga)
+    {
+        $equipo = [];
+        $equipo = new Equipo();
+        $equipo = $equipo->equipo_liga($id_liga, Auth::user()->id);
+        return $equipo;
+    }
+
+    /**
      * Listar grupos
      *
      * @return \Illuminate\Http\Response
@@ -52,7 +65,7 @@ class EquipoController extends Controller
         // Ordenar datos
         $datos = [
             "draw" => $get->draw,
-            "recordsTotal" => count($equipos['ligas']),
+            "recordsTotal" => $equipos['total'],
             "recordsFiltered" => $equipos['total'],
             "data" => $equipos['ligas']/*,
             "get" => $_GET,*/
@@ -217,7 +230,7 @@ class EquipoController extends Controller
         }
 
 
-// Retornar datos al usuario.
+        // Retornar datos al usuario.
         $datos = [
             'msg' => $msg,
             'estado' => $estado,
@@ -225,7 +238,7 @@ class EquipoController extends Controller
             'id' => $id
         ];
 
-// Retornar datos.
+        // Retornar datos.
         return $datos;
     }
 

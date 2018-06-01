@@ -10,14 +10,15 @@
 | database. Just tell the factory how a default model should look.
 |
 */
+
 USE Illuminate\Support\Facades\Auth;
 
 /** Usuarios */
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
     return [
-        'persona_id' => function(){
-          return factory(App\Persona::class)->create()->id;
+        'persona_id' => function () {
+            return factory(App\Persona::class)->create()->id;
         },
         'tipo_usuario_id' => $faker->numberBetween($min = 1, $max = 4),
         'email' => $faker->unique()->safeEmail,
@@ -29,14 +30,15 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 /** Personas */
 $factory->define(App\Persona::class, function (Faker\Generator $faker) {
     return [
-      'nombres' => $faker->name,
-      'apellidos' => $faker->lastName,
-      'tipoIdent_id' => $faker->numberBetween($min = 1, $max = 9),
-      'numIdent' => $faker->randomNumber($nbDigits = 9, $strict = true),
-      'telefono' => $faker->e164PhoneNumber,
-      'fechaNac' => $faker->date($format = 'Y-m-d'),
+        'nombres' => $faker->name,
+        'apellidos' => $faker->lastName,
+        'tipoIdent_id' => $faker->numberBetween($min = 1, $max = 9),
+        'numIdent' => $faker->randomNumber($nbDigits = 9, $strict = true),
+        'telefono' => $faker->e164PhoneNumber,
+        'email' => $faker->email(),
+        'fechaNac' => $faker->date($format = 'Y-m-d'),
         'direccion' => $faker->address(),
-      'genero'  => 'M'
+        'genero' => 'M'
     ];
 });
 
@@ -81,7 +83,7 @@ $factory->define(App\Grupo::class, function (Faker\Generator $faker) {
  */
 $factory->define(App\LigaGrupo::class, function (Faker\Generator $faker) {
     // Se crea el grupo
-    $grupo_id = function (){
+    $grupo_id = function () {
         return factory(App\Grupo::class)->create()->id;
     };
     // Obtener una liga randon del usuario
@@ -108,7 +110,7 @@ $factory->define(App\Equipo::class, function (Faker\Generator $faker) {
  */
 $factory->define(App\EquipoGrupo::class, function (Faker\Generator $faker) {
     // Se crea el equipo
-    $equipo_id = function (){
+    $equipo_id = function () {
         return factory(App\Equipo::class)->create()->id;
     };
     // Obtener un grupo aleatorio
@@ -130,7 +132,7 @@ $factory->define(App\EquipoGrupo::class, function (Faker\Generator $faker) {
  */
 $factory->define(App\Participante::class, function (Faker\Generator $faker) {
     // Se crea la persona
-    $persona_id = function (){
+    $persona_id = function () {
         return factory(App\Persona::class)->create()->id;
     };
     // Obtener una liga aleatoria
@@ -152,7 +154,7 @@ $factory->define(App\Participante::class, function (Faker\Generator $faker) {
  */
 $factory->define(App\Participante::class, function (Faker\Generator $faker) {
     // Se crea la persona
-    $persona_id = function (){
+    $persona_id = function () {
         return factory(App\Persona::class)->create()->id;
     };
     // Obtener una liga aleatoria

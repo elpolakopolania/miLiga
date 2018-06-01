@@ -26,12 +26,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('mis_ligas', 'LigaController@mis_ligas');
     Route::get('grupos_liga/{id}', 'GrupoController@grupos_liga');
+    Route::get('equipo_liga/{id}', 'EquipoController@equipo_liga');
     Route::get('ligas', 'LigaController@listar_ligas');
     Route::get('grupos', 'GrupoController@listar');
     Route::get('equipos', 'EquipoController@listar');
+    Route::get('delegados', 'DelegadoController@listar');
     Route::get('delegadoNumDoc/{numDoc}', 'DelegadoController@showNumdoc');
     Route::resource('/liga', 'LigaController');
     Route::resource('/grupo', 'GrupoController');
     Route::resource('/equipo', 'EquipoController');
     Route::resource('/delegado', 'DelegadoController');
+    Route::resource('/cronologia', 'CronologiaController');
 });

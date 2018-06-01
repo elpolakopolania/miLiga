@@ -2,7 +2,7 @@
 @extends('plantilla.app')
 
 <!-- Título de la página -->
-@section('titulo','Equipos')
+@section('titulo','Delegado')
 
 @section('cssLib')
     <!-- Bootstrap Material Datetime Picker Css -->
@@ -51,21 +51,25 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered table-striped table-hover" id="tb_grupos">
+                                    <table class="table table-bordered table-striped table-hover" id="tb_grupos"
+                                           style="width: 99.9%;">
                                         <thead>
                                         <tr>
-                                            <th>persona_id</th>
+                                            <th>participante_id</th>
+                                            <th>Liga</th>
+                                            <th>Equipo</th>
                                             <th>Nombres</th>
                                             <th>Apellidos</th>
                                             <th>Tipo docuemto</th>
                                             <th>Documento</th>
                                             <th>Teléfono</th>
+                                            <th>Correo</th>
                                             <th>Dirección</th>
                                             <th>Fecha Nacimiento</th>
                                             <th>Género</th>
-                                            <th>Creada</th>
+                                            <th>Creado</th>
+                                            <th>tipoDoc_id</th>
                                             <th>liga_id</th>
-                                            <th>grupo_id</th>
                                             <th>equipo_id</th>
                                             <th>delegado_id</th>
                                             <th></th>
@@ -80,45 +84,34 @@
                     <div role="tabpanel" class="tab-pane fade in" id="grupo_panel">
                         <form id="form_equipo" action="{{ url('equipo') }}" method="POST">
                             {{ csrf_field() }}
-                            <input type="hidden" name="crear_editar" id="crear_editar">
-                            <input type="hidden" name="input_id" id="input_id">
-                            <input type="hidden" name="grupo_id" id="grupo_id">
-                            <input type="hidden" name="equipo_id" id="equipo_id">
-                            <input type="hidden" name="liga_id" id="liga_id">
+                            <input type="text" name="crear_editar" id="crear_editar">
+                            <input type="text" name="equipo_id" id="equipo_id">
+                            <input type="text" name="liga_id" id="liga_id">
+                            <input type="text" name="input_id" id="input_id">
+                            <input type="text" name="delegado_id" id="delegado_id">
                             <div class="row">
-                                <div class="col-sm-4">
+                                <div class="col-sm-6">
                                     <b>Liga</b>
                                     <select id="select_liga" name="select_liga"
-                                            class="form-control show-tick selectpiker">
+                                            class="form-control show-tick selectpiker" data-live-search="true">
                                         @foreach ($ligas as $liga)
                                             <option value="{{ $liga['id'] }}">{{ $liga['nombre'] }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-sm-4">
-                                    <b>Grupo</b>
-                                    <select id="select_grupo" name="select_grupo"
-                                            class="form-control show-tick selectpiker">
-                                        @foreach ($grupos as $grupo)
-                                            <option value="{{ $grupo->id }}">{{ $grupo->nombre }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-6">
                                     <b>Equipo</b>
                                     <select id="select_equipo" name="select_equipo"
-                                            class="form-control show-tick selectpiker">
-                                        @foreach ($grupos as $grupo)
-                                            <option value="{{ $grupo->id }}">{{ $grupo->nombre }}</option>
-                                        @endforeach
+                                            class="form-control show-tick selectpiker" data-live-search="true">
                                     </select>
                                 </div>
                                 <div class="col-sm-6">
                                     <b>Tipo de documento</b>
                                     <select id="select_tipoDoc" name="select_tipoDoc"
                                             class="form-control show-tick selectpiker">
-                                        @foreach ($grupos as $grupo)
-                                            <option value="{{ $grupo->id }}">{{ $grupo->nombre }}</option>
+                                        @foreach ($documentos as $documento)
+                                            <option value="{{ $documento->id }}"
+                                                    data-subtext="{{ $documento->codigo  }}">{{ $documento->nombre }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -153,8 +146,8 @@
                                         <i class="material-icons">assignment</i>
                                     </span>
                                         <div class="form-line">
-                                            <input type="text" class="form-control" name="input_apelido"
-                                                   id="input_nombre" required>
+                                            <input type="text" class="form-control" name="input_apellido"
+                                                   id="input_apellido" required>
                                         </div>
                                     </div>
                                 </div>
@@ -201,14 +194,14 @@
                                             <i class="material-icons">date_range</i>
                                         </span>
                                         <div class="form-line">
-                                            <input type="text" name="input_fecha_ini" id="input_fecha_ini"
+                                            <input type="text" name="input_fecha_nac" id="input_fecha_nac"
                                                    class="datepicker form-control"
                                                    placeholder="fecha de nacimiento..."
                                                    required>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-md-6">
                                     <b>Genero</b>
                                     <select id="select_genero" name="select_genero"
                                             class="form-control show-tick selectpiker">
@@ -232,11 +225,11 @@
         </div>
     </div>
     <script type="text/javascript">
+        var ruta_redirect = 'delegado';
         var ruta_base = '{{ url('') }}';
-        var ruta_tabla = '{{ url('equipos') }}';
-        var ruta_url = '{{ url('equipo') }}';
-        var ruta_select_grupo = '{{ url('grupos_liga') }}';
-        var ruta_get_delegado = '{{ url('delegadoNumDoc') }}';
+        var ruta_tabla = '{{ url('delegados') }}';
+        var ruta_url = '{{ url('delegado') }}';
+        var ruta_select_equipo = '{{ url('equipo_liga') }}';
     </script>
     <!-- #END# Basic Validation -->
 @endsection

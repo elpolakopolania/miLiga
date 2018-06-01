@@ -14,7 +14,7 @@ class LigaTableSeeder extends Seeder
         // Crear 2 Ligas para cada usuario
         $users = App\User::all();
         foreach($users as $i => $user){
-            factory(App\Liga::class, 1)->create([
+            factory(App\Liga::class, 2)->create([
                 'usuario_id' => $user->id
             ]);
         }

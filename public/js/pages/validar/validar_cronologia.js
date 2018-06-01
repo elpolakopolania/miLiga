@@ -1,9 +1,7 @@
 var tb_grupos;
 var columnas = [
-    'participante_id', 'liga', 'equipo','nombres', 'apellidos', 'tipo_doc',
-    'documento', 'telefono', 'correo', 'direccion',
-    'fecha_nac', 'genero', 'creada', 'tipoDoc_id', 'liga_id',
-    'equipo_id', 'delegado_id',
+    'persona_id', 'nombres', 'apellidos', 'tipo_doc', 'documento', 'telefono', 'direccion',
+    'fecha_nac', 'genero', 'creada', 'liga_id', 'grupo_id', 'equipo_id', 'delegado_id',
     'opciones'
 ];
 var cancelar = 'cancelar';
@@ -30,8 +28,6 @@ $(document).ready(function () {
     ini_change_liga();
     // Inicializar el boton buscar delegado.
     ini_buscar_delegado();
-    // Inicializar fecha nacimiento
-    ini_fechas();
 });
 
 /**
@@ -42,24 +38,18 @@ function ini_btn_editar() {
         var data = $('#tb_grupos').DataTable().row($(this).parents('tr')).data();
         // Llenar campos.
         $("#crear_editar").val(1);
-
-        $("#input_id").val(data[columnas.indexOf('participante_id')]);
-        $("#liga_id").val(data[columnas.indexOf('liga_id')]);
+        $("#input_id").val(data[columnas.indexOf('id')]);
+        $("#grupo_id").val(data[columnas.indexOf('grupo_id')]);
         $("#equipo_id").val(data[columnas.indexOf('equipo_id')]);
-        $("#delegado_id").val(data[columnas.indexOf('delegado_id')]);
-
+        $("#liga_id").val(data[columnas.indexOf('liga_id')]);
         $('#select_liga').selectpicker('val', data[columnas.indexOf('liga_id')]);
-        $('#select_equipo').selectpicker('val', data[columnas.indexOf('equipo_id')]);
-        $('#select_tipoDoc').selectpicker('val', data[columnas.indexOf('tipoDoc_id')]);
-        $("#input_doc").val(data[columnas.indexOf('documento')]);
-        $("#input_nombre").val(data[columnas.indexOf('nombres')]);
-        $("#input_apellido").val(data[columnas.indexOf('apellidos')]);
-        $("#input_telefono").val(data[columnas.indexOf('telefono')]);
-        $("#input_correo").val(data[columnas.indexOf('correo')]);
-        $("#input_direccion").val(data[columnas.indexOf('direccion')]);
-        $("#input_fecha_nac").val(data[columnas.indexOf('fecha_nac')]);
-        $('#select_genero').selectpicker('val', data[columnas.indexOf('genero')]);
+        $('#select_grupo').selectpicker('val', data[columnas.indexOf('select_grupo')]);
 
+        $('#input_idDelegado').val(data[columnas.indexOf('delegado_id')]);
+        $('#input_doc').val(data[columnas.indexOf('docDelegado')]);
+        $('#nombre_delegado').val(data[columnas.indexOf('delegado')]);
+
+        $("#input_nombre").val(data[columnas.indexOf('equipo')]);
         $('.selectpiker').selectpicker('refresh');
         // Mostrar tab
         $('#myTabs a[href="#grupo_panel"]').tab('show');
@@ -71,12 +61,12 @@ function ini_btn_editar() {
  */
 function ini_tb() {
     tb_grupos = $('#tb_grupos').DataTable({
-        "processing": true,
+        /*"processing": true,
         "serverSide": true,
         "ajax": {
             "url": ruta_tabla,
             "type": "GET"
-        },
+        },*/
         "createdRow": function (row, data, index) {
             $('td', row).eq(-1).html(`
             <button type="button" class="btn btn-primary btn-circle waves-effect waves-circle waves-float btn_editar">
@@ -96,24 +86,19 @@ function ini_tb() {
                 "searchable": false,
                 "orderable": false,
                 "width": "10px"
-            },
+            }/*,
             {
                 "targets": [
-                    columnas.indexOf('participante_id'),
-                    columnas.indexOf('correo'),
-                    columnas.indexOf('telefono'),
-                    columnas.indexOf('direccion'),
-                    columnas.indexOf('fecha_nac'),
-                    columnas.indexOf('genero'),
-                    columnas.indexOf('tipoDoc_id'),
+                    columnas.indexOf('id'),
                     columnas.indexOf('liga_id'),
+                    columnas.indexOf('grupo_id'),
                     columnas.indexOf('equipo_id'),
                     columnas.indexOf('delegado_id')
                 ],
                 "searchable": false,
                 "orderable": false,
                 "visible": false
-            }
+            }*/
         ]
     });
 }
@@ -126,14 +111,14 @@ function ini_menu() {
     active = 'active';
     toggled = 'toggled';
     selecionar_lista = [
-        {id: '#list_home', class: active},
-        {id: '#list_participantes', class: active},
-        {id: '#participantes_a', class: toggled},
-        {id: '#delegados_li', class: active},
-        {id: '#delegados_a', class: toggled}
+        {id: '#list_home', class: toggled},
+        {id: '#list_fechas', class: active},
+        {id: '#fechas_a', class: toggled},
+        {id: '#cronologia_li', class: active},
+        {id: '#cronologia_a', class: toggled}
     ];
     mostrar = [
-        {id: '#participantes_m', onOff: true}
+        {id: '#fechas_m', onOff: true}
     ];
 
     marcar_opciones(selecionar_lista, mostrar);
@@ -178,7 +163,7 @@ function enviar_formulario() {
     parametros = get_param($("#form_equipo").serializeArray());
     parametros['select_liga'] = $('#select_liga').selectpicker('val');
     var editar = '';
-    var id = '/' + $("#input_id").val();
+    var id = '/' + $("#equipo_id").val();
     var ruta = ruta_url;
     var metodo = 'POST';
     if ($("#crear_editar").val() == 1) {
@@ -202,12 +187,8 @@ function enviar_formulario() {
         } else {
             colorName = 'bg-red';
         }
-        try {
-            msg = res.msg[0];
-            showNotification(colorName, msg, placementFrom, placementAlign, animateEnter, animateExit);
-        }catch (e) {
-            showNotification(colorName, 'Error en la respuesta del servidor.', placementFrom, placementAlign, animateEnter, animateExit);
-        }
+        msg = res.msg[0];
+        showNotification(colorName, msg, placementFrom, placementAlign, animateEnter, animateExit);
     }).fail(function (res) {
         try {
             respuesta = JSON.parse(res.responseText);
@@ -234,10 +215,7 @@ function ini_tab() {
     $('#tab_crear').on('hidden.bs.tab', function (e) {
         $("#form_equipo")[0].reset();
         $('#select_liga').selectpicker('refresh');
-    }).on('show.bs.tab', function (e) {
-        $('#select_liga').change();
     });
-
 }
 
 function ini_change_liga() {
@@ -249,13 +227,12 @@ function ini_change_liga() {
     var animateExit = 'animated fadeOutRight';
     $("#select_liga").change(function (e) {
         // Actualizar el select
-        $.get(ruta_select_equipo + '/' + $(this).val(), function (data) {
+        $.get(ruta_select_grupo + '/' + $(this).val(), function (data) {
             try {
-                dibujar_select(data,"#select_equipo");
-                $('#select_equipo').selectpicker('val', $("#equipo_id").val());
+                dibujar_select(data);
             }
             catch (err) {
-                showNotification(colorName, 'Error mostrando equipos.', placementFrom, placementAlign, animateEnter, animateExit);
+                showNotification(colorName, 'Error mostrando grupos.', placementFrom, placementAlign, animateEnter, animateExit);
             }
         }).fail(function () {
             try {
@@ -273,10 +250,10 @@ function ini_change_liga() {
     });
 }
 
-function dibujar_select(data, id) {
-    $(id).empty();
+function dibujar_select(data) {
+    $("#select_grupo").empty();
     $.each(data, function (i, v) {
-        $(id).append('<option value="' + v.id + '">' + v.nombre + '</option>');
+        $("#select_grupo").append('<option value="' + v.id + '">' + v.nombre + '</option>');
     });
     $('.selectpiker').selectpicker('refresh');
 }
@@ -340,23 +317,4 @@ function form_cargando(bool, aplicar, elemento = '') {
     } else {
         $(aplicar).waitMe('hide');
     }
-}
-
-/**
- * Inicializar fechas
- */
-function ini_fechas(){
-    // Inicializar fecha
-    $('#input_fecha_nac').bootstrapMaterialDatePicker({
-        format: 'YYYY-MM-DD',
-        clearButton: true,
-        //weekStart: 1,
-        time: false,
-        lang : 'es',
-        cancelText:cancelar,
-        okText: ok,
-        clearText: limpiar
-    });
-
-    $('#input_fecha_nac').bootstrapMaterialDatePicker('setMaxDate', new Date());
 }

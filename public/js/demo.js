@@ -34,14 +34,15 @@ function skinChanger() {
         update_liga();
     });
 }
-
 function update_liga(){
     // Ontener ids
     var ids = [];
     $.each($(".link_liga.active"),function(i,v){
         ids.push($(v).data('valor'));
     });
-    window.location.replace(ruta_url_ + '/mis_ligas?' + $.param({ids:ids}));
+    ids_ = $.param({ids:ids});
+    redir = (typeof ruta_redirect !== 'undefined') ? '&redirect=' + ruta_redirect : '';
+    window.location.replace(ruta_url_ + '/mis_ligas?' + ids_  + redir);
 }
 
 function obtener_ligas(){   
@@ -135,7 +136,8 @@ function activateNotificationAndTasksScroll() {
 
 //Google Analiytics ======================================================================================
 addLoadEvent(loadTracking);
-var trackingId = 'UA-30038099-6';
+var trackingId = 'xx-xxxxxxxx-x';
+// var trackingId = 'UA-30038099-6';
 
 function addLoadEvent(func) {
     var oldonload = window.onload;

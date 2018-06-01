@@ -47,7 +47,7 @@ class GrupoController extends Controller
         // Ordenar datos
         $datos = [
             "draw" => $get->draw,
-            "recordsTotal" => count($grupos['ligas']),
+            "recordsTotal" => $grupos['total'],
             "recordsFiltered" => $grupos['total'],
             "data" => $grupos['ligas']/*,
             "get" => $_GET,*/

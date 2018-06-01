@@ -51,7 +51,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered table-striped table-hover" id="tb_grupos">
+                                    <table class="table table-bordered table-striped table-hover" id="tb_grupos" style="width: 99.9%;">
                                         <thead>
                                         <tr>
                                             <th>id</th>
@@ -161,6 +161,7 @@
     </div>
 
     <script type="text/javascript">
+        var ruta_redirect = 'equipo';
         var ruta_base = '{{ url('') }}';
         var ruta_tabla = '{{ url('equipos') }}';
         var ruta_url = '{{ url('equipo') }}';

@@ -74,11 +74,19 @@ $persona = Session::get('persona')[0];
                     </li>
                 </ul>
             </li>
-            <li>
-                <a href="#">
+            <li id="list_fechas">
+                <a href="javascript:void(0);" class="menu-toggle" id="fechas_a">
                     <i class="material-icons">date_range</i>
                     <span>Fechas</span>
                 </a>
+                <ul class="ml-menu" id="fechas_m">
+                    <li id="programar_fech_li">
+                        <a href="#" id="programar_fech_a" class="waves-effect waves-block">Programar</a>
+                    </li>
+                    <li id="cronologia_li">
+                        <a href="{{ url('cronologia') }}" id="cronologia_a" class="waves-effect waves-block">Cronología</a>
+                    </li>
+                </ul>
             </li>
             <li id="resultado_li">
                 <a href="javascript:void(0);" id="resultado_a" class="menu-toggle waves-effect waves-block">

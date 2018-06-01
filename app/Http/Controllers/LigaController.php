@@ -36,7 +36,7 @@ class LigaController extends Controller
         // Ordenar datos
         $datos = [
             "draw" => $get->draw,
-            "recordsTotal" => count($ligas['ligas']),
+            "recordsTotal" => $ligas['total'],
             "recordsFiltered" => $ligas['total'],
             "data" => $ligas['ligas']/*,
             "get" => $_GET,*/
@@ -192,6 +192,8 @@ class LigaController extends Controller
      */
     public function mis_ligas(Request $request){
         if($request->input('ids')){
+            $redirect_ = $request->input('redirect');
+            $redirect = (!empty($redirect_)) ? $request->input('redirect'): '';
             $liga = new Liga();
             $ligas = $liga::select('id', 'nombre', DB::raw("'active' as estado "))
             ->whereIn('id',$request->input('ids'))
@@ -208,7 +210,8 @@ class LigaController extends Controller
                 }
             }
             $request->session()->put('ligas', $liga_insert);
-            return redirect('');
+
+            return redirect($redirect);
         }else{
             return response()->json($request->session()->get('ligas'));
         }

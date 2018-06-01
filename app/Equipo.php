@@ -134,4 +134,19 @@ class Equipo extends Model
         return $registros;
     }
 
+    /**
+     * Obtener los grupos a partir de una liga.
+     */
+    public function equipo_liga($liga_id, $user_id){
+        // Obtener el total de los registros filtrados.
+        $consulta = DB::table('grupos_equipos AS ge')
+            ->select('e.id', 'e.nombre')
+            ->join('ligas AS l', 'l.id', '=', 'ge.liga_id')
+            ->join('equipos AS e', 'e.id', '=', 'ge.equipo_id')
+            ->where('l.id',$liga_id)
+            ->where('l.usuario_id',$user_id);
+        // Retornar la cantidad de registros.
+        return $consulta->get()->toArray();
+    }
+
 }
