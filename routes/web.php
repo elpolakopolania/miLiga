@@ -31,10 +31,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('grupos', 'GrupoController@listar');
     Route::get('equipos', 'EquipoController@listar');
     Route::get('delegados', 'DelegadoController@listar');
+    Route::get('jugadores', 'JugadorController@listar');
     Route::get('delegadoNumDoc/{numDoc}', 'DelegadoController@showNumdoc');
+    Route::get('jugadorNumDoc/{numDoc}', 'JugadorController@showNumdoc');
     Route::resource('/liga', 'LigaController');
     Route::resource('/grupo', 'GrupoController');
     Route::resource('/equipo', 'EquipoController');
     Route::resource('/delegado', 'DelegadoController');
+    Route::resource('/jugador', 'JugadorController');
     Route::resource('/cronologia', 'CronologiaController');
 });

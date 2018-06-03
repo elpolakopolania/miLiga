@@ -2,7 +2,7 @@
 @extends('plantilla.app')
 
 <!-- Título de la página -->
-@section('titulo','Delegado')
+@section('titulo','Jugador')
 
 @section('cssLib')
     <!-- Bootstrap Material Datetime Picker Css -->
@@ -28,7 +28,7 @@
         <div class="card">
             <div class="header">
                 <h2>
-                    Administrar Delegados
+                    Administrar Jugadores
                 </h2>
             </div>
             <div class="body">
@@ -62,6 +62,7 @@
                                             <th>Apellidos</th>
                                             <th>Tipo docuemto</th>
                                             <th>Documento</th>
+                                            <th>Camiseta</th>
                                             <th>Teléfono</th>
                                             <th>Correo</th>
                                             <th>Dirección</th>
@@ -90,7 +91,7 @@
                             <input type="hidden" name="input_id" id="input_id">
                             <input type="hidden" name="delegado_id" id="delegado_id">
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-sm-4">
                                     <b>Liga</b>
                                     <select id="select_liga" name="select_liga"
                                             class="form-control show-tick selectpiker" data-live-search="true">
@@ -99,11 +100,23 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-4">
                                     <b>Equipo</b>
                                     <select id="select_equipo" name="select_equipo"
                                             class="form-control show-tick selectpiker" data-live-search="true">
                                     </select>
+                                </div>
+                                <div class="col-sm-4">
+                                    <b>Número de camiseta</b>
+                                    <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">person_pin</i>
+                                    </span>
+                                        <div class="form-line">
+                                            <input type="number" value="0" min="0" class="form-control" name="input_num_camiseta"
+                                                   id="input_num_camiseta">
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <b>Tipo de documento</b>
@@ -225,10 +238,10 @@
         </div>
     </div>
     <script type="text/javascript">
-        var ruta_redirect = 'delegado';
+        var ruta_redirect = 'jugador';
         var ruta_base = '{{ url('') }}';
-        var ruta_tabla = '{{ url('delegados') }}';
-        var ruta_url = '{{ url('delegado') }}';
+        var ruta_tabla = '{{ url('jugadores') }}';
+        var ruta_url = '{{ url('jugador') }}';
         var ruta_select_equipo = '{{ url('equipo_liga') }}';
     </script>
     <!-- #END# Basic Validation -->
@@ -266,5 +279,5 @@
 
 <!-- Librerias JS -->
 @section('jsPag')
-    <script src="{{ asset('js/pages/validar/validar_delegados.js') }}"></script>
+    <script src="{{ asset('js/pages/validar/validar_jugadores.js') }}"></script>
 @endsection

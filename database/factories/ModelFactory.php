@@ -145,6 +145,7 @@ $factory->define(App\Participante::class, function (Faker\Generator $faker) {
         'persona_id' => $persona_id,
         'liga_id' => $liga_id,
         'tipo_usuario_id' => $faker->numberBetween($min = 1, $max = 4),
+        'num_camiseta' => 0,
         'equipo_id' => $equipo_id
     ];
 });
@@ -167,6 +168,7 @@ $factory->define(App\Participante::class, function (Faker\Generator $faker) {
         'persona_id' => $persona_id,
         'liga_id' => $liga_id,
         'tipo_usuario_id' => $faker->numberBetween($min = 1, $max = 4),
+        'num_camiseta' => $faker->numberBetween($min = 1, $max = 30),
         'equipo_id' => $equipo_id
     ];
 });

@@ -67,7 +67,7 @@ $persona = Session::get('persona')[0];
                 </a>
                 <ul class="ml-menu" id="participantes_m">
                     <li id="jugadores_li">
-                        <a href="#" id="jugadores_a" class="waves-effect waves-block">Jugadores</a>
+                        <a href="{{ url('jugador') }}" id="jugadores_a" class="waves-effect waves-block">Jugadores</a>
                     </li>
                     <li id="delegados_li">
                         <a href="{{ url('delegado') }}" id="delegados_a" class="waves-effect waves-block">Delegados</a>

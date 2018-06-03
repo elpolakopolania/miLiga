@@ -5,8 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-
-class Participante extends Model
+class Jugador extends Model
 {
     protected $table = 'participantes';
 
@@ -16,7 +15,7 @@ class Participante extends Model
      * @var array
      */
     protected $fillable = [
-        'persona_id', 'liga_id', 'tipo_usuario_id', 'num_camiseta', 'estado'
+        'persona_id', 'liga_id', 'tipo_usuario_id', 'num_camiseta','estado'
     ];
 
     /**
@@ -51,7 +50,7 @@ class Participante extends Model
             ->join('ligas AS l', 'l.id', '=', 'p.liga_id')
             ->join('equipos AS e', 'e.id', '=', 'p.equipo_id')
             ->where('l.usuario_id', $user_id)
-            ->where('p.tipo_usuario_id', 4)
+            ->where('p.tipo_usuario_id', 3)
             ->select(DB::raw('count(*) as total'));
         if (!empty(session()->get('ligas'))) {
             $ligas_ = [];
@@ -91,9 +90,9 @@ class Participante extends Model
             ->join('ligas AS l', 'l.id', '=', 'p.liga_id')
             ->join('equipos AS e', 'e.id', '=', 'p.equipo_id')
             ->where('l.usuario_id', $user_id)
-            ->where('p.tipo_usuario_id', 4)
+            ->where('p.tipo_usuario_id', 3)
             ->select(
-                'p.id', 'l.nombre AS liga', 'e.nombre AS equipo', 'per.nombres', 'per.apellidos', 'td.codigo', 'per.numIdent',
+                'p.id', 'l.nombre AS liga', 'e.nombre AS equipo', 'per.nombres', 'per.apellidos', 'td.codigo', 'per.numIdent', 'p.num_camiseta',
                 'per.telefono',  'per.email', 'per.direccion', 'per.fechaNac', 'per.genero', 'p.created_at AS creada',
                 'td.id AS tipo_doc_id', 'l.id AS liga_id', 'e.id AS equipo_id', 'per.id AS delegado_id'
             );
@@ -128,7 +127,7 @@ class Participante extends Model
         $registros = [];
         foreach ($consulta->get()->toArray() as $posicion => $fila) {
             $registros[] = [
-                encrypt($fila->id), $fila->liga, $fila->equipo, $fila->nombres, $fila->apellidos, $fila->codigo, $fila->numIdent,
+                encrypt($fila->id), $fila->liga, $fila->equipo, $fila->nombres, $fila->apellidos, $fila->codigo, $fila->numIdent, $fila->num_camiseta,
                 $fila->telefono, $fila->email, $fila->direccion, $fila->fechaNac, $fila->genero, $fila->creada,
                 $fila->tipo_doc_id, $fila->liga_id, $fila->equipo_id, encrypt($fila->delegado_id), ''
             ];
@@ -148,7 +147,7 @@ class Participante extends Model
             ->join('participantes AS par', 'par.persona_id', '=', 'p.id')
             ->join('ligas AS l', 'par.liga_id', '=', 'l.id')
             ->where('l.usuario_id', $user_id)
-            ->where('par.tipo_usuario_id', 4)
+            ->where('par.tipo_usuario_id', 3)
             ->where('p.numIdent', $num_doc)
             ->first();
         return $delegado;
