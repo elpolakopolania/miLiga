@@ -28,7 +28,7 @@
         <div class="card">
             <div class="header">
                 <h2>
-                    Administrar Equipos
+                    Equipos
                 </h2>
             </div>
             <div class="body">

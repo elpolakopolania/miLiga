@@ -25,7 +25,7 @@
         <div class="card">
             <div class="header">
                 <h2>
-                    Administrar ligas
+                    Ligas
                 </h2>
             </div>
             <div class="body">

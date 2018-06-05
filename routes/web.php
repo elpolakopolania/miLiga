@@ -39,5 +39,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/equipo', 'EquipoController');
     Route::resource('/delegado', 'DelegadoController');
     Route::resource('/jugador', 'JugadorController');
+    Route::resource('/partido', 'PartidoController');
     Route::resource('/cronologia', 'CronologiaController');
+
+    Route::get('/combinar', 'PartidoController@combinar');
 });

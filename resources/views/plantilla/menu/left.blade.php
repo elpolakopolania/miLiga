@@ -80,8 +80,8 @@ $persona = Session::get('persona')[0];
                     <span>Fechas</span>
                 </a>
                 <ul class="ml-menu" id="fechas_m">
-                    <li id="programar_fech_li">
-                        <a href="#" id="programar_fech_a" class="waves-effect waves-block">Programar</a>
+                    <li id="partidos_li">
+                        <a href="{{ url('partido') }}" id="partidos_a" class="waves-effect waves-block">Partidos</a>
                     </li>
                     <li id="cronologia_li">
                         <a href="{{ url('cronologia') }}" id="cronologia_a" class="waves-effect waves-block">Cronología</a>

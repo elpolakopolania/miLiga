@@ -26,7 +26,7 @@
         <div class="card">
             <div class="header">
                 <h2>
-                    Administrar Grupos
+                    Grupos
                 </h2>
             </div>
             <div class="body">
