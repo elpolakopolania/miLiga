@@ -46,74 +46,9 @@
             </div>
         </div>
     </div>
-    <!-- Jornadas -->
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <div class="card">
-            <div class="header">
-                <h2>
-                    Jornada 1
-                </h2>
-                <ul class="header-dropdown">
-                    <li>
-                        <a href="javascript:void(0);">
-                            <i class="material-icons">add</i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0);">
-                            <i class="material-icons">mode_edit</i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0);">
-                            <i class="material-icons">delete</i>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="body">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="col-xs-12">
-                            <div class="info-box-sm hover-zoom-effect">
-                                <div class="icon bg-green">
-                                    <i class="material-icons">security</i>
-                                </div>
-                                <div class="content">
-                                    <div class="text">Deportivo 1</div>
-                                    <div class="number">2</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-12">
-                            <div class="info-box hover-zoom-effect info-box-sm">
-                                <div class="icon bg-pink">
-                                    <i class="material-icons">security</i>
-                                </div>
-                                <div class="content">
-                                    <div class="text">Atletico 2</div>
-                                    <div class="number">4</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-12">
-                            <p class="font-bold col-grey font-16"> Jun 4, 2018 12:46 AM </p>
-                            <ul class="icon-grupo">
-                                <li>
-                                    <a href="javascript:void(0);"><i
-                                                class="material-icons col-grey font-18">mode_edit</i></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);"><i class="material-icons col-grey font-18">delete</i></a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
+    <!-- Jornadas -->
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 divJornadas" ></div>
 
     <!-- Modal Jornada -->
     <div class="modal fade" id="smallModal" tabindex="-1" role="dialog">
@@ -161,8 +96,8 @@
     <script src="{{ asset('plugins/momentjs/moment.js') }}"></script>
     <script src="{{ asset('plugins/momentjs/locale/es.js') }}"></script>
     <script type="text/javascript">
-        moment.locale('es');
-        console.log(moment().format('LLL'));
+        //moment.locale('es');
+        //console.log(moment().format('LLL'));
     </script>
     <!-- Bootstrap Material Datetime Picker Plugin Js -->
     <script src="{{ asset('plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js') }}"></script>
@@ -184,5 +119,7 @@
 
 <!-- Librerias JS -->
 @section('jsPag')
+    <script src="{{ asset('plugins/bootstrap-jornada/js/jornada.js') }}"></script>
     <script src="{{ asset('js/pages/validar/validar_partidos.js') }}"></script>
+
 @endsection

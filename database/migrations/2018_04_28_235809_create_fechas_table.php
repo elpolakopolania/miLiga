@@ -17,6 +17,7 @@ class CreateFechasTable extends Migration
 		{
             $table->increments('id');
             $table->integer('liga_id')->index('fk_fechas_ligas_id')->unsigned();
+            $table->integer('jornada_id');
             $table->integer('equipo1_id')->index('fk_fechas_equipo1_id')->unsigned();
             $table->integer('equipo2_id')->index('fk_fechas_equipo2_id')->unsigned();
             $table->integer('equipo1_goles');

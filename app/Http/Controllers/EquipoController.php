@@ -14,6 +14,11 @@ use Illuminate\Support\Facades\DB;
 
 class EquipoController extends Controller
 {
+    private $colores = [
+        'bg-cyan', 'bg-red', 'bg-pink', 'bg-light-green', 'bg-purple', 'bg-indigo',
+        'bg-blue', 'bg-deep-orange', 'bg-green', 'bg-lime', 'bg-blue-grey', 'bg-deep-purple',
+        'bg-yellow', 'bg-amber', 'bg-orange', 'bg-brown', 'bg-grey', 'bg-light-blue', 'bg-black', 'bg-teal'
+    ];
     /**
      * Display a listing of the resource.
      *
@@ -31,6 +36,7 @@ class EquipoController extends Controller
         $grupo = new Grupo;
         $datos['ligas'] = $ligas->toArray();
         $datos['grupos'] = $grupo->grupos($user_id, $datos['ligas'][0]['id']);
+        $datos['colores'] = $this->colores;
         return view('equipo.index', $datos);
     }
 
@@ -105,6 +111,7 @@ class EquipoController extends Controller
                 // Editar Equipo
                 $equipo->nombre = $request->input_nombre;
                 $equipo->escudo = "";
+                $equipo->color = $request->select_colores;
                 $equipo->save();
                 // Editar relación
                 $equipoGrupo->liga_id = $request->select_liga;
@@ -135,8 +142,8 @@ class EquipoController extends Controller
         // Retornar datos al usuario.
         $datos = [
             'msg' => $msg,
-            'estado' => $estado,
-            $request->all()
+            'estado' => $estado/*,
+            $request->all()*/
         ];
 
         // Retornar datos.
@@ -191,6 +198,7 @@ class EquipoController extends Controller
             if (count($equipo) > 0) {
                 // Editar Equipo
                 $equipo->nombre = $request->input_nombre;
+                $equipo->color = $request->select_colores;
                 $equipo->save();
                 // Editar relación
                 $equipoGrupo->liga_id = $request->select_liga;
@@ -233,9 +241,9 @@ class EquipoController extends Controller
         // Retornar datos al usuario.
         $datos = [
             'msg' => $msg,
-            'estado' => $estado,
+            'estado' => $estado/*,
             $request->all(),
-            'id' => $id
+            'id' => $id*/
         ];
 
         // Retornar datos.

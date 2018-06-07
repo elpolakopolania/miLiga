@@ -18,6 +18,7 @@ class CreateEquiposTable extends Migration
 			$table->increments('id');
             $table->string('nombre');
             $table->string('escudo');
+            $table->string('color')->nullable();
             $table->integer('delegado_id')->nullable();
             //$table->integer('liga_id')->index('fk_equipos_ligas_id')->unsigned();
             $table->integer('estado')->comment('O inactivo, 1 activo')->default(1);

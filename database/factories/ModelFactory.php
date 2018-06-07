@@ -98,9 +98,15 @@ $factory->define(App\LigaGrupo::class, function (Faker\Generator $faker) {
  * Factory para los equipos
  */
 $factory->define(App\Equipo::class, function (Faker\Generator $faker) {
+    $colores = [
+        'bg-cyan', 'bg-red', 'bg-pink', 'bg-light-green', 'bg-purple', 'bg-indigo',
+        'bg-blue', 'bg-deep-orange', 'bg-green', 'bg-lime', 'bg-blue-grey', 'bg-deep-purple',
+        'bg-yellow', 'bg-amber', 'bg-orange', 'bg-brown', 'bg-grey', 'bg-light-blue', 'bg-black', 'bg-teal'
+    ];
     return [
         'nombre' => $faker->lastName(),
         'escudo' => $faker->url,
+        'color' => $colores[$faker->numberBetween($min = 0, $max = (count($colores)-1))],
         'delegado_id' => NULL
     ];
 });

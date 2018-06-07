@@ -51,7 +51,8 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered table-striped table-hover" id="tb_grupos" style="width: 99.9%;">
+                                    <table class="table table-bordered table-striped table-hover" id="tb_grupos"
+                                           style="width: 99.9%;">
                                         <thead>
                                         <tr>
                                             <th>id</th>
@@ -65,6 +66,7 @@
                                             <th>liga_id</th>
                                             <th>grupo_id</th>
                                             <th>delegado_id</th>
+                                            <th>color</th>
                                             <th></th>
                                         </tr>
                                         </thead>
@@ -101,7 +103,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-sm-12">
+                                <div class="col-sm-8">
                                     <b>Nombre</b>
                                     <div class="input-group">
                                     <span class="input-group-addon">
@@ -112,6 +114,15 @@
                                                    id="input_nombre" required>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <b id="b_color">Color</b>
+                                    <select id="select_colores" name="select_colores"
+                                            class="form-control selectpiker show-tick" data-style="">
+                                        @foreach ($colores as $color)
+                                            <option value="{{ $color }}" class="{{ $color }}">{{ $color }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div class="col-sm-5">
                                     <b>Documento Delegado</b>

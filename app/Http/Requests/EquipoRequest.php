@@ -26,7 +26,8 @@ class EquipoRequest extends FormRequest
         return [
             'select_liga' => 'required',
             'input_nombre' => 'required',
-            'select_grupo' => 'required'
+            'select_grupo' => 'required',
+            'select_colores' => 'required'
         ];
     }
 
@@ -41,6 +42,7 @@ class EquipoRequest extends FormRequest
             'select_liga.required' => 'El id de la liga es obligatorio',
             'input_nombre.required'  => 'La nombre es obligatorio',
             'select_grupo.required'  => 'El id del grupo es obligatorio',
+            'select_colores.required'  => 'El color es obligatorio',
         ];
     }
 }

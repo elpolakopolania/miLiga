@@ -15,7 +15,7 @@ class Equipo extends Model
      * @var array
      */
     protected $fillable = [
-        'nombre', 'escudo', 'delegado_id', 'estado'
+        'nombre', 'escudo', 'color', 'delegado_id', 'estado'
     ];
 
     /**
@@ -96,7 +96,7 @@ class Equipo extends Model
             ->select(
                 'gpl.id', 'e.nombre AS equipo', 'g.nombre AS grupo', 'l.nombre AS liga', 'per.numIdent AS docDelegado',
                 DB::raw("CONCAT(per.nombres,' ',per.apellidos) AS delegado"),
-                'e.created_at AS creada', 'e.id AS equipo_id', 'l.id AS liga_id', 'g.id AS grupo_id', 'per.id AS delegado_id'
+                'e.created_at AS creada', 'e.id AS equipo_id', 'l.id AS liga_id', 'g.id AS grupo_id', 'per.id AS delegado_id', 'e.color'
             );
         if (!empty(session()->get('ligas'))) {
             $ligas_ = [];
@@ -127,7 +127,7 @@ class Equipo extends Model
         foreach ($consulta->get()->toArray() as $posicion => $fila) {
             $registros[] = [
                 encrypt($fila->id), $fila->equipo, $fila->grupo, $fila->liga, $fila->docDelegado, $fila->delegado,
-                $fila->creada, $fila->equipo_id, $fila->liga_id, $fila->grupo_id, encrypt($fila->delegado_id), ''
+                $fila->creada, $fila->equipo_id, $fila->liga_id, $fila->grupo_id, encrypt($fila->delegado_id), $fila->color, ''
             ];
         }
         // Retornar registros en arreglos.

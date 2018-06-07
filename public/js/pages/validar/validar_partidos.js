@@ -15,6 +15,7 @@ var placementFrom = 'bottom';
 var placementAlign = 'right';
 var animateEnter = 'animated fadeInRight';
 var animateExit = 'animated fadeOutRight';
+var jornadas;
 $(document).ready(function () {
     // Inicializar menú
     ini_menu();
@@ -32,6 +33,13 @@ $(document).ready(function () {
     ini_buscar_delegado();
     // Inicializar fecha nacimiento
     ini_fechas();
+    // Inicializar jornada
+    jornadas = $('.divJornadas').jornada({
+        'nombre':'jornada',
+        'url':'okok',
+        'nombre':'ok',
+        'element_class':'rojo'
+    });
 });
 
 /**

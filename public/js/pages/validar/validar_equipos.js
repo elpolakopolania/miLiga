@@ -11,17 +11,18 @@ var columnas = [
     'liga_id',
     'grupo_id',
     'delegado_id',
+    'color',
     'opciones'
 ];
 var cancelar = 'cancelar';
 var ok = 'ok';
 var limpiar = 'limpiar';
 
-var colorName='bg-red';
-var placementFrom='bottom';
-var placementAlign='right';
-var animateEnter='animated fadeInRight';
-var animateExit='animated fadeOutRight';
+var colorName = 'bg-red';
+var placementFrom = 'bottom';
+var placementAlign = 'right';
+var animateEnter = 'animated fadeInRight';
+var animateExit = 'animated fadeOutRight';
 $(document).ready(function () {
     // Inicializar menú
     ini_menu();
@@ -37,7 +38,37 @@ $(document).ready(function () {
     ini_change_liga();
     // Inicializar el boton buscar delegado.
     ini_buscar_delegado();
+    // Inicializar color
+    ini_color();
 });
+
+/**
+ * Inicialiar select color
+ */
+function ini_color() {
+    var previous_value;
+    $("#select_colores").on('shown.bs.select', function (e) {
+        previous_value = $(this).val();
+    }).on('changed.bs.select', function (e) {
+        if ($($("#b_color").next().children()[0]).hasClass(previous_value)) {
+            $($("#b_color").next().children()[0]).toggleClass(previous_value);
+        }
+        $($("#b_color").next().children()[0]).addClass($(this).val());
+        previous_value = $(this).val();
+    }).on('loaded.bs.select', function (e) {
+        if ($($("#b_color").next().children()[0]).hasClass(previous_value)) {
+            $($("#b_color").next().children()[0]).toggleClass(previous_value);
+        }
+        $($("#b_color").next().children()[0]).addClass($(this).val());
+        previous_value = $(this).val();
+    }).on('refreshed.bs.select', function (e) {
+        if ($($("#b_color").next().children()[0]).hasClass(previous_value)) {
+            $($("#b_color").next().children()[0]).toggleClass(previous_value);
+        }
+        $($("#b_color").next().children()[0]).addClass($(this).val());
+        previous_value = $(this).val();
+    });
+}
 
 /**
  * Inicializar el boton editar liga
@@ -53,6 +84,8 @@ function ini_btn_editar() {
         $("#liga_id").val(data[columnas.indexOf('liga_id')]);
         $('#select_liga').selectpicker('val', data[columnas.indexOf('liga_id')]);
         $('#select_grupo').selectpicker('val', data[columnas.indexOf('select_grupo')]);
+        $('#select_colores').data('style', data[columnas.indexOf('color')]);
+        $('#select_colores').selectpicker('val', data[columnas.indexOf('color')]);
 
         $('#input_idDelegado').val(data[columnas.indexOf('delegado_id')]);
         $('#input_doc').val(data[columnas.indexOf('docDelegado')]);
@@ -102,7 +135,8 @@ function ini_tb() {
                     columnas.indexOf('liga_id'),
                     columnas.indexOf('grupo_id'),
                     columnas.indexOf('equipo_id'),
-                    columnas.indexOf('delegado_id')
+                    columnas.indexOf('delegado_id'),
+                    columnas.indexOf('color')
                 ],
                 "searchable": false,
                 "orderable": false,
@@ -263,7 +297,7 @@ function dibujar_select(data) {
 function ini_buscar_delegado() {
     $("#btn_buscar_dele").click(function () {
         //Buscar delegado
-        if($("#input_doc").val() != '') {
+        if ($("#input_doc").val() != '') {
             form_cargando(true, '#grupo_panel', this);
             obtener_delegado($("#input_doc").val());
         }
@@ -273,14 +307,14 @@ function ini_buscar_delegado() {
 function obtener_delegado(documento) {
     $.get(ruta_get_delegado + '/' + documento, function (datos) {
         // Validar el estado de la notificaion.
-        if(datos.id != undefined){
-            colorName='bg-teal';
+        if (datos.id != undefined) {
+            colorName = 'bg-teal';
             msg = 'Se encontró delegado';
             $("#input_idDelegado").val(datos.id);
             $("#input_doc").val(datos.numIdent);
             $("#nombre_delegado").val(datos.nombre);
-        }else{
-            colorName='bg-red';
+        } else {
+            colorName = 'bg-red';
             msg = 'No se encontró delegado';
             $("#input_idDelegado").val('');
             $("#input_doc").val('');
@@ -291,16 +325,16 @@ function obtener_delegado(documento) {
     }).fail(function () {
         try {
             respuesta = JSON.parse(res.responseText);
-            $.each(respuesta,function(indice, value){
-                $.each( value,function(i,v){
+            $.each(respuesta, function (indice, value) {
+                $.each(value, function (i, v) {
                     showNotification(colorName, v, placementFrom, placementAlign, animateEnter, animateExit);
                 });
             });
         }
-        catch(err) {
+        catch (err) {
             showNotification(colorName, 'Error en el servidor.', placementFrom, placementAlign, animateEnter, animateExit);
         }
-    }).always(function() {
+    }).always(function () {
         form_cargando(false, '#grupo_panel');
     });
 
