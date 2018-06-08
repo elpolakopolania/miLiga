@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Liga;
+use App\LigaGrupo;
+use App\Grupo;
+use App\Equipo;
+use App\Fecha;
+use App\Jornada;
 use Auth;
 
 class PartidoController extends Controller
@@ -27,49 +32,35 @@ class PartidoController extends Controller
         return view('partido.index', $datos);
     }
 
-    public function combinar()
+    /**
+     * Permite listar las rondas según la liga
+     */
+    public function listar_rondas($liga_id)
     {
-        $array = ['1vs2','1vs2','1vs2'];
-        print_r(array(
-           $array,
-           array_unique($array)
-        ));
-        /*$input = array('1', '2', '3', '4');
+        $rondas = [];
+        $msg = [];
+        $estado = true;
 
-        $resultado = $this->permutar($input);
-        for ($f = 0; $f < count($resultado); $f++) {
-            echo $resultado[$f];
-            echo "<br>";
-        }*/
-
-
+        $msg[] = 'Listar rondas';
+        if (decrypt($liga_id) == 1) {
+            $rondas[] = 1;
+        }
+        return [
+            'estado' => $estado,
+            'msg' => $msg,
+            'rondas' => $rondas
+        ];
     }
 
-    /*******************************************************/
-    private function permutar($input)
+    /**
+     * Combina los equipos de una liga.
+     * @return array
+     */
+    public function combinar($liga_id, $idaVuelta = 0)
     {
-        $miarray = array();
-        $cadena = "";
-        //copio el array
-        $temporal = $input;
-        //borro el primer numero del array
-        array_shift($input);
-        //ahora la cuenta esta en que solo quedan 3
-        for ($u = 0; $u < count($temporal); $u++) {
-            for ($i = 0; $i < count($input); $i++) {
-                array_push($input, $input[0]);
-                array_shift($input);
-                for ($e = 0; $e < count($input); $e++) {
-                    $cadena .= $input[$e];
-                }
-                array_push($miarray, $temporal[$u] . $cadena);
-                array_push($miarray, $temporal[$u] . strrev($cadena));
-                $cadena = "";
-            }
-            array_shift($input);
-            array_push($input, $temporal[$u]);
-        }
-        return $miarray;
+        $idaVuelta = (intval($idaVuelta) === 0) ? false : true;
+        $rondas = calcular_rondas(5, $idaVuelta);
+        return $rondas;
     }
 
     /**

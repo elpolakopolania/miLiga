@@ -33,14 +33,28 @@
             </div>
             <div class="body">
                 <div class="row">
-                    <div class="col-xs-12">
-                        <b>Equipo</b>
-                        <select id="select_equipo" name="select_equipo"
-                                class="form-control show-tick selectpiker" data-live-search="true">
-                            @foreach ($ligas as $liga)
-                                <option value="{{ $liga->id }}">{{ $liga->nombre }}</option>
-                            @endforeach
-                        </select>
+                    <div class="form-inline">
+                        <div class="col-sm-6">
+                            <b>Equipo</b>
+                            <select id="select_liga" name="select_liga"
+                                    class="form-control show-tick selectpiker" data-live-search="true">
+                                @foreach ($ligas as $liga)
+                                    <option value="{{ encrypt($liga->id) }}">{{ $liga->nombre }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-xs-12 col-sm-3 text-right onOffOp">
+                            <br>
+                            <input type="checkbox" id="checkIdaVuelta" class="chk-col-light-blue"/>
+                            <label for="checkIdaVuelta">Ida y vuelta</label>
+                        </div>
+                        <div class="col-xs-12 col-sm-3 text-right onOffOp">
+                            <br>
+                            <button type="button" class="btn btn-info waves-effect" id="btn_calcular">
+                                <span>Calcular jornadas</span>
+                                <i class="material-icons">local_laundry_service</i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -48,7 +62,7 @@
     </div>
 
     <!-- Jornadas -->
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 divJornadas" ></div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 divJornadas"></div>
 
     <!-- Modal Jornada -->
     <div class="modal fade" id="smallModal" tabindex="-1" role="dialog">
@@ -75,14 +89,13 @@
             </div>
         </div>
     </div>
-
     <script type="text/javascript">
         var ruta_redirect = 'equipo';
         var ruta_base = '{{ url('') }}';
         var ruta_tabla = '{{ url('equipos') }}';
         var ruta_url = '{{ url('equipo') }}';
-        var ruta_select_grupo = '{{ url('grupos_liga') }}';
-        var ruta_get_delegado = '{{ url('delegadoNumDoc') }}';
+        var ruta_calcular_jornadas = '{{ url('combinarFechas') }}';
+        var ruta_get_rondas = '{{ url('rondas') }}';
     </script>
     <!-- #END# Basic Validation -->
 @endsection

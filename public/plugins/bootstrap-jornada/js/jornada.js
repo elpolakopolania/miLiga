@@ -37,7 +37,7 @@
                             <i class="material-icons">security</i>
                         </div>
                         <div class="content">
-                            <div class="text">{{nombre}}</div>
+                            <div class="text">{{nombre}} <small>({{grupo}})</small></div>
                             <div class="number">{{goles}}</div>
                         </div>
                     </div>
@@ -50,7 +50,7 @@
                             <i class="material-icons">security</i>
                         </div>
                         <div class="content">
-                            <div class="text">{{nombre}}</div>
+                            <div class="text">{{nombre}} <small>({{grupo}})</small></div>
                             <div class="number">{{goles}}</div>
                         </div>
                     </div>
@@ -119,6 +119,7 @@
             id: '1',
             color: '',
             nombre: 'Equipo ',
+            grupo: 'Grupo ',
             goles: 1
         };
         this.fecha = {
@@ -155,7 +156,6 @@
         // Obtener color aleatorio.
         this.randonColor = function(){
             var randon = Math.floor(Math.random()*10);
-            console.log(randon);
             return this.colores[randon];
         }
         // Dibuja la plantilla
@@ -177,11 +177,13 @@
                 local = local.replace('{{id}}', fecha_.local.id + Math.floor((Math.random() * 10) + 1));
                 local = local.replace('{{color}}', this_.randonColor());
                 local = local.replace('{{nombre}}', fecha_.local.nombre + Math.floor((Math.random() * 10) + 1));
+                local = local.replace('{{grupo}}', fecha_.local.grupo + Math.floor((Math.random() * 10) + 1));
                 local = local.replace('{{goles}}', fecha_.local.goles + Math.floor((Math.random() * 10)));
                 // Visitante
                 visitante = visitante.replace('{{id}}', fecha_.visitante.id + Math.floor((Math.random() * 10) + 1));
                 visitante = visitante.replace('{{color}}', this_.randonColor());
                 visitante = visitante.replace('{{nombre}}', fecha_.visitante.nombre + Math.floor((Math.random() * 10) + 1));
+                visitante = visitante.replace('{{grupo}}', fecha_.visitante.grupo + Math.floor((Math.random() * 10) + 1));
                 visitante = visitante.replace('{{goles}}', fecha_.visitante.goles + + Math.floor((Math.random() * 10)));
                 //Fecha
                 info = info.replace('{{id}}', fecha_.id + Math.floor((Math.random() * 10) + 1));
@@ -219,6 +221,13 @@
 
         this.getContenido = function(){
             return this_.contenido;
+        }
+
+        this.destruir = function (){
+            this.each(function () {
+                var element = $(this);
+                element.html('');
+            });
         }
 
     }

@@ -34,6 +34,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('jugadores', 'JugadorController@listar');
     Route::get('delegadoNumDoc/{numDoc}', 'DelegadoController@showNumdoc');
     Route::get('jugadorNumDoc/{numDoc}', 'JugadorController@showNumdoc');
+    Route::get('rondas/{liga_id}', 'PartidoController@listar_rondas');
+    Route::get('combinarFechas/{liga_id}/{idaVuelta?}', 'PartidoController@combinar');
     Route::resource('/liga', 'LigaController');
     Route::resource('/grupo', 'GrupoController');
     Route::resource('/equipo', 'EquipoController');
@@ -41,6 +43,4 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/jugador', 'JugadorController');
     Route::resource('/partido', 'PartidoController');
     Route::resource('/cronologia', 'CronologiaController');
-
-    Route::get('/combinar', 'PartidoController@combinar');
 });
